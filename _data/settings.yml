@@ -47,8 +47,8 @@ author:
 # Hero Settings
 hero:
   enable: true
-  hero_avatar: /images/01-1.jpg
-  hero_title: Hi! I’m Alex 👋
+  hero_avatar: /images/matija-square.png
+  hero_title: Hi! I’m Matija 👋
   hero_subtitle: A digital explorer, coder, and Linux advocate
   hero_description: |
     I’m a digital explorer, coder, and Linux advocate. This blog is my personal knowledge base on productivity, programming, and the freedom of information.
