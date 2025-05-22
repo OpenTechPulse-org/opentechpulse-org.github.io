@@ -1,10 +1,10 @@
+---
 #-------------------------------
 # Site Settings
 title: OpenTech Pulse
 description: OpenTech Pulse
 logo: # You can add own logo. For example '/images/logo.png'.
 logo_dark:
-
 
 #-------------------------------
 # Color Scheme Settings
@@ -18,33 +18,30 @@ color_scheme:
 # - false: The theme will always use the default mode specified above,
 #          and the toggle button will not be displayed.
 
-
 #-------------------------------
 # Navigation Settings
 menu_settings:
   menu_items:
-    - title: 'Home'
-      url: '/'
-    - title: 'Videos'
-      url: '/videos/'
-    - title: 'Archive'
-      url: '/archive/'
-    - title: 'Pages'
+    - title: "Home"
+      url: "/"
+    - title: "Videos"
+      url: "/videos/"
+    - title: "Archive"
+      url: "/archive/"
+    - title: "Pages"
       submenu:
-      - url: '/about/'
-        title: 'About'
-      - url: '/contact/'
-        title: 'Contact'
-      - url: '/elements/'
-        title: 'Elements'
-
+        - url: "/about/"
+          title: "About"
+        - url: "/contact/"
+          title: "Contact"
+        - url: "/elements/"
+          title: "Elements"
 
 #-------------------------------
 # Author Settings
 author:
   author_name: Alex Dias
   author_avatar: /images/01-1.jpg
-
 
 #-------------------------------
 # Hero Settings
@@ -60,8 +57,7 @@ hero:
   hero_image: /images/01.jpg
   hero_image_caption: My creative space, where masterpieces are born
   hero_button_text: Let’s Work Together
-  hero_button_link: '/contact/'
-
+  hero_button_link: "/contact/"
 
 # Logos
 logos:
@@ -79,13 +75,11 @@ logos:
     - alt: "Mouse"
       image: "/images/1004.jpg"
 
-
 #-------------------------------
 # Section Blog Settings
 blog:
   enable: true
   blog_title: The Binary Journal
-
 
 #-------------------------------
 # Tags Section Settings
@@ -102,13 +96,11 @@ tags_section:
     - tag: "Security"
       image: "/images/23.jpg"
 
-
 #-------------------------------
 # Videos Section Settings
 videos_section:
   enable: true
   videos_section_title: Latest Videos
-
 
 #-------------------------------
 # Gallery Section Settings
@@ -117,22 +109,21 @@ gallery_section:
   gallery_section_title: Byte Frame
   gallery:
     gallery_images:
-      - alt: 'Rest'
-        url: '/images/100.jpg'
-        caption: 'Small steps lead to big results.'
-      - alt: 'Lifestyle'
-        url: '/images/101.jpg'
-        caption: 'A peaceful moment captured during a serene evening.'
-      - alt: 'Hobby'
-        url: '/images/102.jpg'
-        caption: 'True friends are like stars — they shine brightest when the world feels dark.'
-      - alt: 'Computers'
-        url: '/images/103.jpg'
-        caption: 'Every click opens a new chapter in an endless story.'
-      - alt: 'Games'
-        url: '/images/104.jpg'
-        caption: 'Every level is a new opportunity to test your limits.'
-
+      - alt: "Rest"
+        url: "/images/100.jpg"
+        caption: "Small steps lead to big results."
+      - alt: "Lifestyle"
+        url: "/images/101.jpg"
+        caption: "A peaceful moment captured during a serene evening."
+      - alt: "Hobby"
+        url: "/images/102.jpg"
+        caption: "True friends are like stars — they shine brightest when the world feels dark."
+      - alt: "Computers"
+        url: "/images/103.jpg"
+        caption: "Every click opens a new chapter in an endless story."
+      - alt: "Games"
+        url: "/images/104.jpg"
+        caption: "Every level is a new opportunity to test your limits."
 
 #-------------------------------
 # Newsletter Settings
@@ -144,25 +135,38 @@ mailchimp:
   mailchimp_input_text: Your email address...
   mailchimp_button_text: Join Now
 
-
 #-------------------------------
 # Footer Settings
 footer_description: Here, I share ideas, tools, and methods that help me balance productivity with creativity while keeping control over my digital world. Dive in, get inspired, and feel free to share your thoughts!
 
-
 #-------------------------------
 # Social Settings
 social:
-- {icon: "fa-brands fa-x-twitter", name: "Twitter", link: "https://twitter.com"}
-- {icon: "fa-brands fa-facebook", name: "Facebook", link: "https://facebook.com"}
-- {icon: "fa-brands fa-mastodon", name: "Mastodon", link: "https://mastodon.social"}
-- {icon: "fa-brands fa-reddit-alien", name: "Reddit", link: "https://reddit.com"}
-- {icon: "fa-brands fa-github", name: "Github", link: "https://github.com"}
-- {icon: "fa-solid fa-rss", name: "Rss", link: "/feed.xml"}
+  - {
+      icon: "fa-brands fa-x-twitter",
+      name: "Twitter",
+      link: "https://twitter.com",
+    }
+  - {
+      icon: "fa-brands fa-facebook",
+      name: "Facebook",
+      link: "https://facebook.com",
+    }
+  - {
+      icon: "fa-brands fa-mastodon",
+      name: "Mastodon",
+      link: "https://mastodon.social",
+    }
+  - {
+      icon: "fa-brands fa-reddit-alien",
+      name: "Reddit",
+      link: "https://reddit.com",
+    }
+  - { icon: "fa-brands fa-github", name: "Github", link: "https://github.com" }
+  - { icon: "fa-solid fa-rss", name: "Rss", link: "/feed.xml" }
 
 # Example of adding a new link to the sidebar and footer - {icon: "fa-brands fa-youtube", name: "Youtube", link: https://youtube.com"}
 # Other icons can be found at https://fontawesome.com/icons
-
 
 #-------------------------------
 # Contact Settings
@@ -173,7 +177,6 @@ contact:
 # NOTE
 # Coderon theme comes with a contact form built-in. You can use this form with Formspree (https://formspree.io/) service and get up to 50 submissions for free. Also, you can easily switch to another service if you want.
 
-
 #-------------------------------
 # Comment Section (Disqus)
 disqus:
@@ -181,7 +184,6 @@ disqus:
   disqus_identifier: anvod-studio-test # Add your shortname for Disqus Comment. For example anvod-studio-test
   disqus_title: Start the conversation
   disqus_button_text: Show Comments
-
 
 #-------------------------------
 # Google Analytics
