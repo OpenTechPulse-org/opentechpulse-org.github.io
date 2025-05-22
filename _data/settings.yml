@@ -1,7 +1,7 @@
 #-------------------------------
 # Site Settings
-title: Coderon
-description: Coderon is a super modern and unique Jekyll blog theme
+title: Open Tech Pulse
+description: Open Tech Pulse
 logo: # You can add own logo. For example '/images/logo.png'.
 logo_dark:
 
@@ -10,7 +10,7 @@ logo_dark:
 # Color Scheme Settings
 color_scheme:
   default: dark # Default theme applied on the first visit (options: "light" or "dark")
-  toggle: true # Enable theme toggle
+  toggle: false # Enable theme toggle
 
 # Enables or disables the theme toggle functionality:
 # - true: Users can switch between light and dark modes using a toggle button.
