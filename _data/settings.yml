@@ -95,7 +95,7 @@ tags_section:
       image: "/images/22.jpg"
     - tag: "Security"
       image: "/images/23.jpg"
-    - tag: "Operating Systems"
+    - tag: "Security"
       image: "/images/23.jpg"
 
 #-------------------------------
