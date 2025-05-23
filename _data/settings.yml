@@ -49,10 +49,8 @@ hero:
   enable: true
   hero_avatar: /images/matija-square.png
   hero_title: Hi! I’m Matija 👋
-  hero_subtitle: A digital explorer, coder, and Linux advocate
+  hero_subtitle: A passionate advocate for open tech, digital sovereignty, and innovation
   hero_description: |
-    A passionate advocate for open tech, digital sovereignty, and innovation
-
     Welcome to OpenTech Pulse — a blog where I explore and share the tools, technologies, and ideas that drive the open tech movement forward.
 
     Here you’ll find hands-on guides, honest reviews of software and hardware, tips on productivity and privacy, and insights into open source innovation — all aimed at helping you take control of your digital world.
