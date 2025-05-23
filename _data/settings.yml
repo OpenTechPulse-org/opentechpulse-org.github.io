@@ -55,7 +55,7 @@ hero:
 
     Dive in, explore, and stay in control of your digital world.
   hero_image: /images/logopulse.png
-  hero_image_caption: My creative space, where masterpieces are born
+  hero_image_caption:
   hero_button_text: Contact Me
   hero_button_link: "/contact/"
 
