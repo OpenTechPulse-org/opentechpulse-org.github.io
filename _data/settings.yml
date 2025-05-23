@@ -95,6 +95,8 @@ tags_section:
       image: "/images/22.jpg"
     - tag: "Security"
       image: "/images/23.jpg"
+    - tag: "Operating Systems"
+      image: "/images/23.jpg"
 
 #-------------------------------
 # Videos Section Settings
