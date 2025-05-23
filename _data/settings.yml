@@ -51,11 +51,9 @@ hero:
   hero_title: Hi! I’m Matija 👋
   hero_subtitle: A passionate advocate for open tech, digital sovereignty, and innovation
   hero_description: |
-    Welcome to OpenTech Pulse — a blog where I explore and share the tools, technologies, and ideas that drive the open tech movement forward.
+    Welcome to OpenTech Pulse — your hub for guides, reviews, and ideas around open source software, hardware, and tools that empower.
 
-    Here you’ll find hands-on guides, honest reviews of software and hardware, tips on productivity and privacy, and insights into open source innovation — all aimed at helping you take control of your digital world.
-
-    Whether you’re a maker, developer, or just tech-curious — dive in, explore, and stay inspired.
+    Dive in, explore, and stay in control of your digital world.
   hero_image: /images/logopulse.png
   hero_image_caption: My creative space, where masterpieces are born
   hero_button_text: Let’s Work Together
