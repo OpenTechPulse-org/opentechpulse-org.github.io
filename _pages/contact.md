@@ -1,8 +1,11 @@
 ---
 layout: contact
 title: Get In Touch
-description: Coderon comes with a built-in contact form, that you can use with Formspree service to handle up to 50 submissions per month for free.
+description: |
+  Got feedback, questions, or something cool to share?
+  I’d love to hear from you — whether it's a collaboration idea, a suggestion, or just a hello.
+  Drop me a line anytime!
 permalink: /contact/
 image: '/images/logopulse.png'
-image_caption: 'Photo by [Pablo Stanley](https://www.lummi.ai/creator/pablostanley) / [Lummi](https://www.lummi.ai/)'
+image_caption: ''
 ---
