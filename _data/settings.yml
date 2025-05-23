@@ -79,7 +79,7 @@ logos:
 # Section Blog Settings
 blog:
   enable: true
-  blog_title: The Binary Journal
+  blog_title: The Pulse of OpenTech
 
 #-------------------------------
 # Tags Section Settings
@@ -139,7 +139,7 @@ mailchimp:
 
 #-------------------------------
 # Footer Settings
-footer_description: Here, I share ideas, tools, and methods that help me balance productivity with creativity while keeping control over my digital world. Dive in, get inspired, and feel free to share your thoughts!
+footer_description: This blog is a growing archive of open tech insights — from installation guides to hands-on reviews — built for anyone who believes technology should empower, not control.
 
 #-------------------------------
 # Social Settings
