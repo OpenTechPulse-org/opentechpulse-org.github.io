@@ -2,8 +2,8 @@
 #-------------------------------
 # Site Settings
 title: OpenTech Pulse
-description: OpenTech Pulse
-logo: # You can add own logo. For example '/images/logo.png'.
+description: Open source tutorials, tech guides, hardware reviews, and more. OpenTech Pulse makes tech transparent, empowering, and accessible.
+logo: /images/logopulse.png # You can add own logo. For example '/images/logo.png'.
 logo_dark:
 
 #-------------------------------
