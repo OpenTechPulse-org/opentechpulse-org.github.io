@@ -79,41 +79,43 @@ After installation, ensure that your system is up-to-date with the latest securi
 
 After completing the basic installation of Ubuntu, the next crucial step is to configure the network interface to use a static IP address. This ensures that the VM has a consistent IP address that does not change with reboots, which is vital for network reliability and easier management.
 
-1. Identify the Interface: First, identify the network interface that you wish to configure. You can list all available interfaces by executing:
-   ```shell
-      ip link show
-   ```
+Identify the Interface: 
 
-2. Edit Netplan Configuration:
-   Ubuntu uses Netplan for network configuration. Locate the Netplan configuration files in /etc/netplan/.
-   Edit the appropriate YAML configuration file (typically named 00-installer-config.yaml or similar). Here’s an example configuration for a static IP:
-    ```shell
-       nano /etc/netplan/00-installer-config.yaml
-    ```
+First, identify the network interface that you wish to configure. You can list all available interfaces by executing:
+```shell
+   ip link show
+```
 
-        ```yaml
-        # This is the network config written by 'subiquity'
-        network:
-          ethernets:
-            ens18: # Change this to your interface name
-              addresses:
-              - 192.168.1.10/24 # Don't forget to change the IP for the other nodes
-              nameservers:
-                addresses:
-                - 8.8.8.8
-                search: []
-              routes:
-              - to: default
-                via: 192.168.1.1
-          version: 2
-        ```
-        {: file="/etc/netplan/00-installer-config.yaml" }
+Edit Netplan Configuration:
 
-3. Apply the Netplan changes:
+Ubuntu uses Netplan for network configuration. Locate the Netplan configuration files in /etc/netplan/.
+Edit the appropriate YAML configuration file (typically named 00-installer-config.yaml or similar). Here’s an example configuration for a static IP:
+```shell
+   nano /etc/netplan/00-installer-config.yaml
+```
 
-    ```shell
-    sudo netplan apply
-    ```
+```yaml
+   # This is the network config written by 'subiquity'
+   network:
+     ethernets:
+       ens18: # Change this to your interface name
+         addresses:
+         - 192.168.1.10/24 # Don't forget to change the IP for the other nodes
+         nameservers:
+           addresses:
+           - 8.8.8.8
+           search: []
+         routes:
+         - to: default
+           via: 192.168.1.1
+   version: 2
+```
+
+Apply the Netplan changes:
+
+```shell
+   sudo netplan apply
+```
 
 ##### Setting the correct timezone
 
