@@ -72,7 +72,7 @@ Proxmox typically handles network bridging automatically, but you should verify 
 
 After installation, ensure that your system is up-to-date with the latest security patches and software updates. SSH into your VM and run:
 ```bash
-   sudo apt update && sudo apt upgrade -y
+sudo apt update && sudo apt upgrade -y
 ```
 
 ##### Configure Static IP Address
