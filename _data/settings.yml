@@ -85,7 +85,7 @@ blog:
 # Tags Section Settings
 tags_section:
   enable: true
-  tags_section_title: Hacker’s Haven
+  tags_section_title: Navigate the Pulse
   tags:
     - tag: "Programming"
       image: "/images/20.jpg"
@@ -101,13 +101,13 @@ tags_section:
 #-------------------------------
 # Videos Section Settings
 videos_section:
-  enable: true
+  enable: false
   videos_section_title: Latest Videos
 
 #-------------------------------
 # Gallery Section Settings
 gallery_section:
-  enable: true
+  enable: false
   gallery_section_title: Byte Frame
   gallery:
     gallery_images:
