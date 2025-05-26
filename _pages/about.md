@@ -2,7 +2,7 @@
 layout: page
 title: About Me
 permalink: /about/
-image: '/images/01-2.jpg'
+image: '/images/aboutme.png'
 ---
 
 Hey, I’m Alex - part developer, part digital explorer, and full-time lover of all things tech. From crafting lines of code on Linux to unraveling the layers of cybersecurity, my passion for technology goes beyond just a career.
