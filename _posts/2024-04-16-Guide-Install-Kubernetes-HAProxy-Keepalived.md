@@ -6,7 +6,7 @@ date: 2024-04-16 12:00:00 +/-TTTT
 tags: [Guides, kubernetes, haproxy, keepalived]     # TAG names should always be lowercase
 #author: matija
 #img_path: /assets/img/Guide-Kubernetes-haproxy-keepalived/
-image: /imgages/Guide-Kubernetes-haproxy-keepalived/Preview.webp
+image: '/images/Guide-Kubernetes-haproxy-keepalived/Preview.webp'
 ---
 
 In this comprehensive guide, I will walk you through the process of setting up and configuring Kubernetes nodes equipped with HAProxy/Keepalived to ensure high availability. We will use Proxmox as our virtualization platform, a popular choice for deploying and managing virtual environments. The tutorial will cover the initial setup, including the installation of necessary software and configuration of network settings, followed by a step-by-step explanation of how to integrate HAProxy/Keepalived with Kubernetes. This setup will enhance your cluster's resilience to hardware and software failures, ensuring a robust and reliable system. Whether you are new to Kubernetes or looking to expand your knowledge, this guide will provide valuable insights and practical steps to help you build a high-availability Kubernetes cluster using Proxmox.
@@ -28,8 +28,8 @@ For this guide, I assume you have the following configuration:
 VIP Explanation:
 : This is a Virtual IP address that can 'float' between hosts using Keepalived, allowing HAProxy to bind to it for high availability.
 
-> Warning: The VIP IP must be free and not used elsewhere.
-{: .prompt-warning }
+{: .warning }
+Warning: The VIP IP must be free and not used elsewhere.
 
 **Operating System:**
 
