@@ -61,7 +61,7 @@ hero:
 
 # Logos
 logos:
-  enable: true
+  enable: false
   logos_title: Nerd Stuff
   logo_image:
     - alt: "Game Boy"
