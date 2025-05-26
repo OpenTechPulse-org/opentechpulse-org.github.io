@@ -64,35 +64,35 @@ Under the CD/DVD tab, select the uploaded Ubuntu ISO file.
 Start the VM and open the console from the Proxmox interface.
 Proceed with the Ubuntu installation by following the on-screen instructions. Ensure you install the standard server utilities and configure at least one network interface. Also be sure to enable the SSH server.
 
-  3. Network Configuration:
+##### Network Configuration:
 
-     Proxmox typically handles network bridging automatically, but you should verify the network configuration to ensure your VM is accessible according to your network design.
+Proxmox typically handles network bridging automatically, but you should verify the network configuration to ensure your VM is accessible according to your network design.
 
-  4. System Update:
+##### System Update:
 
-      After installation, ensure that your system is up-to-date with the latest security patches and software updates. SSH into your VM and run:
-     ```bash
-      sudo apt update && sudo apt upgrade -y
-      ```
-      {: .nolineno }
+After installation, ensure that your system is up-to-date with the latest security patches and software updates. SSH into your VM and run:
+```bash
+   sudo apt update && sudo apt upgrade -y
+```
+{: .nolineno }
 
-- #### Configure Static IP Address
+##### Configure Static IP Address
 
-  After completing the basic installation of Ubuntu, the next crucial step is to configure the network interface to use a static IP address. This ensures that the VM has a consistent IP address that does not change with reboots, which is vital for network reliability and easier management.
+After completing the basic installation of Ubuntu, the next crucial step is to configure the network interface to use a static IP address. This ensures that the VM has a consistent IP address that does not change with reboots, which is vital for network reliability and easier management.
 
-  1. Identify the Interface: First, identify the network interface that you wish to configure. You can list all available interfaces by executing:
-     ```shell
+1. Identify the Interface: First, identify the network interface that you wish to configure. You can list all available interfaces by executing:
+   ```shell
       ip link show
+   ```
+   {: .nolineno }
+
+2. Edit Netplan Configuration:
+    - Ubuntu uses Netplan for network configuration. Locate the Netplan configuration files in /etc/netplan/.
+    - Edit the appropriate YAML configuration file (typically named 00-installer-config.yaml or similar). Here’s an example configuration for a static IP:
+      ```shell
+         nano /etc/netplan/00-installer-config.yaml
       ```
       {: .nolineno }
-
-  2. Edit Netplan Configuration:
-      - Ubuntu uses Netplan for network configuration. Locate the Netplan configuration files in /etc/netplan/.
-      - Edit the appropriate YAML configuration file (typically named 00-installer-config.yaml or similar). Here’s an example configuration for a static IP:
-        ```shell
-        nano /etc/netplan/00-installer-config.yaml
-        ```
-        {: .nolineno }
         ```yaml
         # This is the network config written by 'subiquity'
         network:
@@ -110,11 +110,11 @@ Proceed with the Ubuntu installation by following the on-screen instructions. En
           version: 2
         ```
         {: file="/etc/netplan/00-installer-config.yaml" }
-  3. Apply the Netplan changes:
-      ```shell
-      sudo netplan apply
-      ```
-      {: .nolineno }
+3. Apply the Netplan changes:
+    ```shell
+    sudo netplan apply
+    ```
+    {: .nolineno }
 
 
 - #### Setting the correct timezone
