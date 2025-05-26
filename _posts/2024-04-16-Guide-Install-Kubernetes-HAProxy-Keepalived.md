@@ -39,10 +39,10 @@ All nodes are using Ubuntu 22.04.4 LTS Server.
 
 ### Initial Setup
 
-> Repeat these steps for every HAProxy/Keepalived node. Don't forget to change the IP address for every node. Also do a reboot of the nodes once you complete all the steps.
-{: .prompt-info }
+{: .important }
+Repeat these steps for every HAProxy/Keepalived node. Don't forget to change the IP address for every node. Also do a reboot of the nodes once you complete all the steps.
 
-- #### Basic install operating system
+#### Basic install operating system
 
   To set up your HAProxy and Keepalived nodes for high availability, start by installing Ubuntu 22.04.4 LTS Server on each virtual machine managed through Proxmox VE. This step-by-step guide assumes you are familiar with basic Proxmox operations.
 
