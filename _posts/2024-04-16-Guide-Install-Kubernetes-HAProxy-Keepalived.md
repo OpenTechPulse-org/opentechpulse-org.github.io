@@ -51,7 +51,7 @@ Repeat these steps for every HAProxy/Keepalived node. Don't forget to change the
 
   Upload the ISO to Proxmox: Log into your Proxmox web interface, navigate to 'Storage' under the 'Datacenter' settings, select your storage, and upload the Ubuntu ISO.
 
-##### Create a New Virtual Machine:
+##### Create a New Virtual Machine
 
 Click on "Create VM" in the Proxmox web interface.
 Enter the necessary VM configuration details such as VM ID, name, and operating system.
@@ -59,22 +59,21 @@ For the OS type, ensure you select 'Linux' and for Version, choose '6.x - 2.6 Ke
 Allocate the recommended CPU, memory, and disk resources according to your environment's specifications.
 Under the CD/DVD tab, select the uploaded Ubuntu ISO file.
 
-##### Install Ubuntu:
+##### Install Ubuntu
 
 Start the VM and open the console from the Proxmox interface.
 Proceed with the Ubuntu installation by following the on-screen instructions. Ensure you install the standard server utilities and configure at least one network interface. Also be sure to enable the SSH server.
 
-##### Network Configuration:
+##### Network Configuration
 
 Proxmox typically handles network bridging automatically, but you should verify the network configuration to ensure your VM is accessible according to your network design.
 
-##### System Update:
+##### System Update
 
 After installation, ensure that your system is up-to-date with the latest security patches and software updates. SSH into your VM and run:
 ```bash
    sudo apt update && sudo apt upgrade -y
 ```
-{: .nolineno }
 
 ##### Configure Static IP Address
 
@@ -84,15 +83,14 @@ After completing the basic installation of Ubuntu, the next crucial step is to c
    ```shell
       ip link show
    ```
-   {: .nolineno }
 
 2. Edit Netplan Configuration:
-    - Ubuntu uses Netplan for network configuration. Locate the Netplan configuration files in /etc/netplan/.
-    - Edit the appropriate YAML configuration file (typically named 00-installer-config.yaml or similar). Here’s an example configuration for a static IP:
-      ```shell
-         nano /etc/netplan/00-installer-config.yaml
-      ```
-      {: .nolineno }
+   Ubuntu uses Netplan for network configuration. Locate the Netplan configuration files in /etc/netplan/.
+   Edit the appropriate YAML configuration file (typically named 00-installer-config.yaml or similar). Here’s an example configuration for a static IP:
+    ```shell
+       nano /etc/netplan/00-installer-config.yaml
+    ```
+
         ```yaml
         # This is the network config written by 'subiquity'
         network:
@@ -110,41 +108,39 @@ After completing the basic installation of Ubuntu, the next crucial step is to c
           version: 2
         ```
         {: file="/etc/netplan/00-installer-config.yaml" }
+
 3. Apply the Netplan changes:
+
     ```shell
     sudo netplan apply
     ```
-    {: .nolineno }
 
+##### Setting the correct timezone
 
-- #### Setting the correct timezone
-  Properly configuring the timezone of your server is crucial for syncing activities and logging events accurately. To set the correct timezone on your Ubuntu server, you can use the dpkg-reconfigure tzdata command, which provides a straightforward graphical interface for selecting your timezone.
+Properly configuring the timezone of your server is crucial for syncing activities and logging events accurately. To set the correct timezone on your Ubuntu server, you can use the dpkg-reconfigure tzdata command, which provides a straightforward graphical interface for selecting your timezone.
 
   ```bash
   sudo dpkg-reconfigure tzdata
   ```
-  {: .nolineno }
 
-- #### Extend LVM volume to use full disk
-  When using LVM, Ubuntu does not allocate all available disk space by default to allow for flexible storage management, including easy volume extension, snapshot creation, and optimized filesystem performance.
+##### Extend LVM volume to use full disk
+When using LVM, Ubuntu does not allocate all available disk space by default to allow for flexible storage management, including easy volume extension, snapshot creation, and optimized filesystem performance.
 
-  Extending an LVM volume to use 100% of available disk space can maximize storage utilization, ensuring no space is wasted and all available capacity is accessible for applications and data.
+Extending an LVM volume to use 100% of available disk space can maximize storage utilization, ensuring no space is wasted and all available capacity is accessible for applications and data.
 
-  With the following commands we can extend the LVM to 100% disk usage.
+With the following commands we can extend the LVM to 100% disk usage.
 
   ```shell
   lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
   ```
-  {: .nolineno }
 
-  This command is used to extend the logical volume. By specifying -l +100%FREE, you are instructing the system to use 100% of the unallocated space available in the volume group (ubuntu-vg) for the logical volume (ubuntu-lv).
+This command is used to extend the logical volume. By specifying -l +100%FREE, you are instructing the system to use 100% of the unallocated space available in the volume group (ubuntu-vg) for the logical volume (ubuntu-lv).
 
   ```shell
   resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
   ```
-  {: .nolineno }  
 
-  Once the logical volume is extended, the filesystem itself must be resized to utilize the additional space. resize2fs is a tool used for resizing ext2, ext3, or ext4 filesystems.
+Once the logical volume is extended, the filesystem itself must be resized to utilize the additional space. resize2fs is a tool used for resizing ext2, ext3, or ext4 filesystems.
 
 ### Configuration of Keepalived
 
