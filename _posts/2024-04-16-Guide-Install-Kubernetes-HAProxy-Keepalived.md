@@ -83,7 +83,7 @@ Identify the Interface:
 
 First, identify the network interface that you wish to configure. You can list all available interfaces by executing:
 ```shell
-   ip link show
+ip link show
 ```
 
 Edit Netplan Configuration:
@@ -91,39 +91,39 @@ Edit Netplan Configuration:
 Ubuntu uses Netplan for network configuration. Locate the Netplan configuration files in /etc/netplan/.
 Edit the appropriate YAML configuration file (typically named 00-installer-config.yaml or similar). Here’s an example configuration for a static IP:
 ```shell
-   nano /etc/netplan/00-installer-config.yaml
+nano /etc/netplan/00-installer-config.yaml
 ```
 
 ```yaml
-   # This is the network config written by 'subiquity'
-   network:
-     ethernets:
-       ens18: # Change this to your interface name
-         addresses:
-         - 192.168.1.10/24 # Don't forget to change the IP for the other nodes
-         nameservers:
-           addresses:
-           - 8.8.8.8
-           search: []
-         routes:
-         - to: default
-           via: 192.168.1.1
-   version: 2
+# This is the network config written by 'subiquity'
+network:
+  ethernets:
+    ens18: # Change this to your interface name
+      addresses:
+      - 192.168.1.10/24 # Don't forget to change the IP for the other nodes
+      nameservers:
+        addresses:
+        - 8.8.8.8
+        search: []
+      routes:
+      - to: default
+        via: 192.168.1.1
+version: 2
 ```
 
 Apply the Netplan changes:
 
 ```shell
-   sudo netplan apply
+sudo netplan apply
 ```
 
 ##### Setting the correct timezone
 
 Properly configuring the timezone of your server is crucial for syncing activities and logging events accurately. To set the correct timezone on your Ubuntu server, you can use the dpkg-reconfigure tzdata command, which provides a straightforward graphical interface for selecting your timezone.
 
-  ```bash
-  sudo dpkg-reconfigure tzdata
-  ```
+```bash
+sudo dpkg-reconfigure tzdata
+```
 
 ##### Extend LVM volume to use full disk
 When using LVM, Ubuntu does not allocate all available disk space by default to allow for flexible storage management, including easy volume extension, snapshot creation, and optimized filesystem performance.
@@ -132,15 +132,15 @@ Extending an LVM volume to use 100% of available disk space can maximize storage
 
 With the following commands we can extend the LVM to 100% disk usage.
 
-  ```shell
-  lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
-  ```
+```shell
+lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+```
 
 This command is used to extend the logical volume. By specifying -l +100%FREE, you are instructing the system to use 100% of the unallocated space available in the volume group (ubuntu-vg) for the logical volume (ubuntu-lv).
 
-  ```shell
-  resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
-  ```
+```shell
+resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
+```
 
 Once the logical volume is extended, the filesystem itself must be resized to utilize the additional space. resize2fs is a tool used for resizing ext2, ext3, or ext4 filesystems.
 
