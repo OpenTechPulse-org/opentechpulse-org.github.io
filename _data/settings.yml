@@ -144,27 +144,27 @@ footer_description: A growing archive of open knowledge, tutorials, reviews, and
 #-------------------------------
 # Social Settings
 social:
-  - {
-      icon: "fa-brands fa-x-twitter",
-      name: "Twitter",
-      link: "https://twitter.com",
-    }
-  - {
-      icon: "fa-brands fa-facebook",
-      name: "Facebook",
-      link: "https://facebook.com",
-    }
+#  - {
+#      icon: "fa-brands fa-x-twitter",
+#      name: "Twitter",
+#      link: "https://twitter.com",
+#    }
+#  - {
+#      icon: "fa-brands fa-facebook",
+#      name: "Facebook",
+#      link: "https://facebook.com",
+#    }
   - {
       icon: "fa-brands fa-mastodon",
       name: "Mastodon",
-      link: "https://mastodon.social",
+      link: "https://mastodon.social/@OpenTechPulse",
     }
-  - {
-      icon: "fa-brands fa-reddit-alien",
-      name: "Reddit",
-      link: "https://reddit.com",
-    }
-  - { icon: "fa-brands fa-github", name: "Github", link: "https://github.com" }
+#  - {
+#      icon: "fa-brands fa-reddit-alien",
+#      name: "Reddit",
+#      link: "https://reddit.com",
+#    }
+  - { icon: "fa-brands fa-github", name: "Github", link: "https://github.com/OpenTechPulse-org" }
   - { icon: "fa-solid fa-rss", name: "Rss", link: "/feed.xml" }
 
 # Example of adding a new link to the sidebar and footer - {icon: "fa-brands fa-youtube", name: "Youtube", link: https://youtube.com"}
