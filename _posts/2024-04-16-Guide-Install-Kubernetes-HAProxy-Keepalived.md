@@ -53,16 +53,16 @@ Repeat these steps for every HAProxy/Keepalived node. Don't forget to change the
 
 ##### Create a New Virtual Machine:
 
-      Click on "Create VM" in the Proxmox web interface.
-      Enter the necessary VM configuration details such as VM ID, name, and operating system.
-      For the OS type, ensure you select 'Linux' and for Version, choose '6.x - 2.6 Kernel'.
-      Allocate the recommended CPU, memory, and disk resources according to your environment's specifications.
-      Under the CD/DVD tab, select the uploaded Ubuntu ISO file.
+Click on "Create VM" in the Proxmox web interface.
+Enter the necessary VM configuration details such as VM ID, name, and operating system.
+For the OS type, ensure you select 'Linux' and for Version, choose '6.x - 2.6 Kernel'.
+Allocate the recommended CPU, memory, and disk resources according to your environment's specifications.
+Under the CD/DVD tab, select the uploaded Ubuntu ISO file.
 
 ##### Install Ubuntu:
 
-      Start the VM and open the console from the Proxmox interface.
-      Proceed with the Ubuntu installation by following the on-screen instructions. Ensure you install the standard server utilities and configure at least one network interface. Also be sure to enable the SSH server.
+Start the VM and open the console from the Proxmox interface.
+Proceed with the Ubuntu installation by following the on-screen instructions. Ensure you install the standard server utilities and configure at least one network interface. Also be sure to enable the SSH server.
 
   3. Network Configuration:
 
