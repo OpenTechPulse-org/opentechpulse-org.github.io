@@ -470,95 +470,96 @@ Warning: Must be done on **all** nodes.
 
 In a Kubernetes setup, containerd serves as the container runtime that directly manages the lifecycle of containers within the cluster. It handles tasks such as running containers, pulling images, and managing storage and network configurations. This is critical for the functioning of Kubernetes, as it relies on a container runtime to execute the containers that run the applications.
 
-- #### Add docker GPG key
+#### Add docker GPG key
 
-  Adding the Docker GPG key is a crucial security step when setting up Docker / Containerd on a system. This key is used to verify the authenticity of the Docker packages downloaded from its repository, ensuring that they haven't been tampered with or altered. By importing this GPG key, your system can trust the signed packages received from Docker's repository, maintaining the integrity and security of your Docker installation.
+Adding the Docker GPG key is a crucial security step when setting up Docker / Containerd on a system. This key is used to verify the authenticity of the Docker packages downloaded from its repository, ensuring that they haven't been tampered with or altered. By importing this GPG key, your system can trust the signed packages received from Docker's repository, maintaining the integrity and security of your Docker installation.
 
-  Execute the following commands to add the GPG key to your node:
-  ```bash
-  sudo install -m 0755 -d /etc/apt/keyrings
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-  sudo chmod a+r /etc/apt/keyrings/docker.gpg
-  ```
-  {: .nolineno }
+Execute the following commands to add the GPG key to your node:
 
-- #### Add Docker repository
+```bash
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+```
 
-  Adding the Docker repository to your system's package sources enables you to install and update Docker / Containerd directly from Docker, Inc.
+#### Add Docker repository
 
-  To add the repository to your node execute following commands:
-  ```bash
-  echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  sudo apt-get update
-  ```
-  {: .nolineno }
+Adding the Docker repository to your system's package sources enables you to install and update Docker / Containerd directly from Docker, Inc.
 
-- #### Install containerd
+To add the repository to your node execute following commands:
+
+```bash
+echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+```
+
+#### Install containerd
   
-  Containerd is a high-performance container runtime that manages the complete container lifecycle of its host system, from image transfer and storage to container execution and supervision.
+Containerd is a high-performance container runtime that manages the complete container lifecycle of its host system, from image transfer and storage to container execution and supervision.
 
-  The installation is very simple with only one command:
-  ```bash
-  sudo apt install -y containerd.io
-  ```
-  {: .nolineno }
+The installation is very simple with only one command:
 
-- #### Install CNI plugins
+```bash
+sudo apt install -y containerd.io
+```
 
-  The installation of CNI (Container Network Interface) plugins is a crucial step for configuring networking in container environments, such as Kubernetes. These plugins provide the necessary network connectivity for containers and enable the application of network policies at runtime.
+#### Install CNI plugins
 
-  First check [Releases · containernetworking/plugins](https://github.com/containernetworking/plugins/releases) for the latest release.
+The installation of CNI (Container Network Interface) plugins is a crucial step for configuring networking in container environments, such as Kubernetes. These plugins provide the necessary network connectivity for containers and enable the application of network policies at runtime.
 
-  Then execute following commands to install (Change the version to the latest release):
-  ```bash
-  wget https://github.com/containernetworking/plugins/releases/download/v1.4.1/cni-plugins-linux-amd64-v1.4.1.tgz
-  mkdir -p /opt/cni/bin
-  tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.4.1.tgz
-  ```
-  {: .nolineno }
+First check [Releases · containernetworking/plugins](https://github.com/containernetworking/plugins/releases) for the latest release.
 
-- #### Configuring the systemd cgroup driver
+Then execute following commands to install (Change the version to the latest release):
 
-  Configuring the systemd cgroup driver in containerd is an important step for ensuring that container processes are properly managed by the system’s init system, systemd. This configuration aligns the container runtime's resource handling with systemd's, enabling more efficient management of system resources. 
+```bash
+wget https://github.com/containernetworking/plugins/releases/download/v1.4.1/cni-plugins-linux-amd64-v1.4.1.tgz
+mkdir -p /opt/cni/bin
+tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.4.1.tgz
+```
 
-  First we need to create the directory and generate the config file with following commands:
-  ```bash
-  sudo mkdir -p /etc/containerd
-  sudo containerd config default | sudo tee /etc/containerd/config.toml
-  ```
-  {: .nolineno }
+#### Configuring the systemd cgroup driver
 
-  To use the systemd cgroup driver in /etc/containerd/config.toml with runc open the config file:
-  ```bash
-  sudo nano /etc/containerd/config.toml
-  ```
-  {: .nolineno }
+Configuring the systemd cgroup driver in containerd is an important step for ensuring that container processes are properly managed by the system’s init system, systemd. This configuration aligns the container runtime's resource handling with systemd's, enabling more efficient management of system resources. 
 
-  Find a line that starts with sandbox_image = (This is somewhere in the beginning of the file) and change it like this:
-  ```text
-  ...
-  sandbox_image = "registry.k8s.io/pause:3.9"
-  ...
-  ```
-  {: file="/etc/containerd/config.toml"  }
+First we need to create the directory and generate the config file with following commands:
 
-  Change runc.options SystemCgroup to True:
-  ```text
-  ...
-  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
-	  ...
-	  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
-	    SystemdCgroup = True
-  ...
-  ```
-  {: file="/etc/containerd/config.toml"  }
+```bash
+sudo mkdir -p /etc/containerd
+sudo containerd config default | sudo tee /etc/containerd/config.toml
+```
 
-  And as a last step restart containerd:
-  ```bash
-  sudo systemctl restart containerd
-  ```
-  {: .nolineno } 
-  This ensures that all changes that have been made are applied.
+To use the systemd cgroup driver in /etc/containerd/config.toml with runc open the config file:
+
+```bash
+sudo nano /etc/containerd/config.toml
+```
+
+Find a line that starts with sandbox_image = (This is somewhere in the beginning of the file) and change it like this:
+
+```text
+...
+sandbox_image = "registry.k8s.io/pause:3.9"
+...
+```
+
+Change runc.options SystemCgroup to True:
+
+```text
+...
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+ ...
+ [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+   SystemdCgroup = True
+...
+```
+
+And as a last step restart containerd:
+
+```bash
+sudo systemctl restart containerd
+```
+
+This ensures that all changes that have been made are applied.
 
 ### Install Kubernetes
 
