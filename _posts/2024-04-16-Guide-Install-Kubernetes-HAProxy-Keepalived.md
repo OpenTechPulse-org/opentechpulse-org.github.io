@@ -150,276 +150,270 @@ Keepalived is a routing software that provides high availability by managing fai
 
 In this case we have 3 HAProxy/Keepalived nodes. One of them (192.168.1.10) will become the MASTER and the other two will we BACKUP.
 
-- #### Install Keepalived
+#### Install Keepalived
 
-  You can install Keepalived on Ubuntu with the following command:
-  ```bash
-  sudo apt install keepalived
-  ```
-  {: .nolineno }
+You can install Keepalived on Ubuntu with the following command:
+```bash
+sudo apt install keepalived
+```
 
-- #### Configure Keepalived
-  The configuration of keepalived is kept in the file /etc/keepalived/keepalived.conf
+#### Configure Keepalived
+The configuration of keepalived is kept in the file /etc/keepalived/keepalived.conf
 
-  On the first node (MASTER / 192.168.1.10) we open this file:
-  ```bash
-  sudo nano /etc/keepalived/keepalived.conf
-  ```
-  {: .nolineno }
-  You clear the contents of this file and replace it with:
-  ```text
-  global_defs {
-    notification_email {
-    }
-    router_id LVS_HAPROXY1
-    vrrp_skip_check_adv_addr
-    vrrp_garp_interval 0
-    vrrp_gna_interval 0
-    enable_script_security
+On the first node (MASTER / 192.168.1.10) we open this file:
+```bash
+sudo nano /etc/keepalived/keepalived.conf
+```
+You clear the contents of this file and replace it with:
+```text
+global_defs {
+  notification_email {
   }
+  router_id LVS_HAPROXY1
+  vrrp_skip_check_adv_addr
+  vrrp_garp_interval 0
+  vrrp_gna_interval 0
+  enable_script_security
+}
 
-  vrrp_script chk_haproxy {
-     user root
-     script "/usr/bin/killall -0 haproxy"
-     interval 2
-     weight 2
+vrrp_script chk_haproxy {
+   user root
+   script "/usr/bin/killall -0 haproxy"
+   interval 2
+   weight 2
+}
+
+vrrp_instance haproxy-vip {
+   state MASTER
+   priority 103
+   interface ens18
+   virtual_router_id 60
+   advert_int 1
+   authentication {
+      auth_type PASS
+      auth_pass 1111
+   }
+   unicast_src_ip 192.168.1.10
+   unicast_peer {
+      192.168.1.11
+      192.168.1.12
+   }
+   virtual_ipaddress {
+      192.168.1.5/24
+   }
+   track_script {
+      chk_haproxy
+   }
+}
+```
+On the second node (BACKUP / 192.168.1.11) the file should look like this:
+
+```text
+global_defs {
+  notification_email {
   }
+  router_id LVS_HAPROXY2
+  vrrp_skip_check_adv_addr
+  vrrp_garp_interval 0
+  vrrp_gna_interval 0
+  enable_script_security
+}
 
-  vrrp_instance haproxy-vip {
-     state MASTER
-     priority 103
-     interface ens18
-     virtual_router_id 60
-     advert_int 1
-     authentication {
-        auth_type PASS
-        auth_pass 1111
-     }
-     unicast_src_ip 192.168.1.10
-     unicast_peer {
-        192.168.1.11
-        192.168.1.12
-     }
-     virtual_ipaddress {
-        192.168.1.5/24
-     }
-     track_script {
-        chk_haproxy
-     }
+vrrp_script chk_haproxy {
+   user root
+   script "/usr/bin/killall -0 haproxy"
+   interval 2
+   weight 2
+}
+
+vrrp_instance haproxy-vip {
+   state BACKUP
+   priority 102
+   interface ens18
+   virtual_router_id 60
+   advert_int 1
+   authentication {
+      auth_type PASS
+      auth_pass 1111
+   }
+   unicast_src_ip 192.168.1.11
+   unicast_peer {
+      192.168.1.10
+      192.168.1.12
+   }
+   virtual_ipaddress {
+      192.168.1.5/24
+   }
+   track_script {
+      chk_haproxy
+   }
+}
+```
+
+And finally on the third node (BACKUP / 192.168.1.12) the file should look like this:
+```text
+global_defs {
+  notification_email {
   }
-  ```
-  {: file="/etc/keepalived/keepalived.conf" }  
+  router_id LVS_HAPROXY3
+  vrrp_skip_check_adv_addr
+  vrrp_garp_interval 0
+  vrrp_gna_interval 0
+  enable_script_security
+}
 
-   On the second node (BACKUP / 192.168.1.11) the file should look like this:
-  ```text
-  global_defs {
-    notification_email {
-    }
-    router_id LVS_HAPROXY2
-    vrrp_skip_check_adv_addr
-    vrrp_garp_interval 0
-    vrrp_gna_interval 0
-    enable_script_security
-  }
+vrrp_script chk_haproxy {
+   user root
+   script "/usr/bin/killall -0 haproxy"
+   interval 2
+   weight 2
+}
 
-  vrrp_script chk_haproxy {
-     user root
-     script "/usr/bin/killall -0 haproxy"
-     interval 2
-     weight 2
-  }
+vrrp_instance haproxy-vip {
+   state BACKUP
+   priority 101
+   interface ens18
+   virtual_router_id 60
+   advert_int 1
+   authentication {
+      auth_type PASS
+      auth_pass 1111
+   }
+   unicast_src_ip 192.168.1.12
+   unicast_peer {
+      192.168.1.10
+      192.168.1.11
+   }
+   virtual_ipaddress {
+      192.168.1.5/24
+   }
+   track_script {
+      chk_haproxy
+   }
+}
+```
 
-  vrrp_instance haproxy-vip {
-     state BACKUP
-     priority 102
-     interface ens18
-     virtual_router_id 60
-     advert_int 1
-     authentication {
-        auth_type PASS
-        auth_pass 1111
-     }
-     unicast_src_ip 192.168.1.11
-     unicast_peer {
-        192.168.1.10
-        192.168.1.12
-     }
-     virtual_ipaddress {
-        192.168.1.5/24
-     }
-     track_script {
-        chk_haproxy
-     }
-  }
-  ```
-  {: file="/etc/keepalived/keepalived.conf" }
+Don't forget to restart the keepalived service on all 3 nodes:
+```bash
+sudo systemctl restart keepalived
+```
 
-   And finally on the third node (BACKUP / 192.168.1.12) the file should look like this:
-  ```text
-  global_defs {
-    notification_email {
-    }
-    router_id LVS_HAPROXY3
-    vrrp_skip_check_adv_addr
-    vrrp_garp_interval 0
-    vrrp_gna_interval 0
-    enable_script_security
-  }
-
-  vrrp_script chk_haproxy {
-     user root
-     script "/usr/bin/killall -0 haproxy"
-     interval 2
-     weight 2
-  }
-
-  vrrp_instance haproxy-vip {
-     state BACKUP
-     priority 101
-     interface ens18
-     virtual_router_id 60
-     advert_int 1
-     authentication {
-        auth_type PASS
-        auth_pass 1111
-     }
-     unicast_src_ip 192.168.1.12
-     unicast_peer {
-        192.168.1.10
-        192.168.1.11
-     }
-     virtual_ipaddress {
-        192.168.1.5/24
-     }
-     track_script {
-        chk_haproxy
-     }
-  }
-  ```
-  {: file="/etc/keepalived/keepalived.conf" }
-
-  Don't forget to restart the keepalived service on all 3 nodes:
-  ```bash
-  sudo systemctl restart keepalived
-  ```
-  {: .nolineno }      
-
-  In this setup where we have three HAProxy/Keepalived nodes, while vrrp_script checks if HAProxy is actively running by probing its process, it does not monitor the status of the node itself. To ensure robustness against node failures, Keepalived employs the Virtual Router Redundancy Protocol (VRRP). This protocol involves each node sending periodic 'heartbeats' or advertisements. If a backup node stops receiving these signals from the master node, it interprets this as a failure and promptly takes over as the new master. This seamless failover mechanism maintains service availability by effectively monitoring both the application's operational state and the health of the node.
+In this setup where we have three HAProxy/Keepalived nodes, while vrrp_script checks if HAProxy is actively running by probing its process, it does not monitor the status of the node itself. To ensure robustness against node failures, Keepalived employs the Virtual Router Redundancy Protocol (VRRP). This protocol involves each node sending periodic 'heartbeats' or advertisements. If a backup node stops receiving these signals from the master node, it interprets this as a failure and promptly takes over as the new master. This seamless failover mechanism maintains service availability by effectively monitoring both the application's operational state and the health of the node.
 
 ### Configuration of HAProxy
 
 HAProxy is a reliable, high-performance load balancer and proxy server for TCP and HTTP-based applications, widely used to ensure efficient distribution of network traffic across multiple servers.
 
-  > Repeat these steps for every HAProxy/Keepalived node.
-  {: .prompt-info }
+{: .important }
+Repeat these steps for every HAProxy/Keepalived node.
 
-- #### Install HAProxy
+#### Install HAProxy
 
-  You can install HAProxy on Ubuntu with the following command:
-  ```bash
-  sudo apt install haproxy
-  ```
-  {: .nolineno }
+You can install HAProxy on Ubuntu with the following command:
+```bash
+sudo apt install haproxy
+```
 
-- #### Enable Non-local bind for the VIP address  
+#### Enable Non-local bind for the VIP address  
 
-  To allow HAProxy to bind to a virtual IP (VIP) that isn't assigned to an interface on the server at the moment HAProxy starts, you need to enable non-local binding on your Linux system. This is necessary because, by default, Linux will prevent an application from binding to an IP address that is not locally configured on an interface. Follow these steps:
+To allow HAProxy to bind to a virtual IP (VIP) that isn't assigned to an interface on the server at the moment HAProxy starts, you need to enable non-local binding on your Linux system. This is necessary because, by default, Linux will prevent an application from binding to an IP address that is not locally configured on an interface. Follow these steps:
 
-  1. Create the file 99-haproxy.conf in the /etc/sysctl.d/ directory:
-     ```bash
-     sudo nano /etc/sysctl.d/99-haproxy.conf
-     ```
-     {: .nolineno }
-  2. Add the following line to the file:
-     ```text
-     net.ipv4.ip_nonlocal_bind=1
-     ```
-     {: file="/etc/sysctl.d/99-haproxy.conf" }
+Create the file 99-haproxy.conf in the /etc/sysctl.d/ directory:
 
-     Save and close the file.
-  3. Apply the changes by running:
-     ```bash
-     sudo sysctl --system
-     ```
-     {: .nolineno }
-     This command will load all sysctl settings, including your new configuration.
+```bash
+sudo nano /etc/sysctl.d/99-haproxy.conf
+```
+Add the following line to the file:
 
-  By setting net.ipv4.ip_nonlocal_bind to 1, you allow HAProxy (or any other application) to bind to an IP address that is not currently assigned to a device on the server. This is particularly useful in high-availability setups like those using Keepalived where the VIP can float between different nodes based on failover or load balancing decisions.
+```text
+net.ipv4.ip_nonlocal_bind=1
+```
+Save and close the file.
 
-- #### Configure HAProxy
+Apply the changes by running:
 
-  We are now going to put the right config for HAProxy
+```bash
+sudo sysctl --system
+```
+This command will load all sysctl settings, including your new configuration.
 
-  1. Open the file haproxy.cfg in the /etc/haproxy/ directory:
-     ```bash
-     sudo nano /etc/haproxy/haproxy.cfg
-     ```
-     {: .nolineno }
-  2. Delete all current lines and add the following to the file:
-     ```text
-     global
-        log /dev/log  local0 info
-        chroot      /var/lib/haproxy
-        pidfile     /var/run/haproxy.pid
-        maxconn     4000
-        user        haproxy
-        group       haproxy
-        daemon
-        stats socket /var/lib/haproxy/stats
+By setting net.ipv4.ip_nonlocal_bind to 1, you allow HAProxy (or any other application) to bind to an IP address that is not currently assigned to a device on the server. This is particularly useful in high-availability setups like those using Keepalived where the VIP can float between different nodes based on failover or load balancing decisions.
 
-     defaults
-        mode                    http
-        log                     global
-        option                  httplog
-        option                  dontlognull
-        option http-server-close
-        option forwardfor       except 127.0.0.0/8
-        option                  redispatch
-        retries                 1
-        timeout http-request    10s
-        timeout queue           20s
-        timeout connect         5s
-        timeout client          20s
-        timeout server          20s
-        timeout http-keep-alive 10s
-        timeout check           10s
+#### Configure HAProxy
 
-     listen stats
-        bind 192.168.1.5:9000 # This is our VIP address
-        mode http
-        stats enable
-        stats uri /stats
-        stats realm Haproxy\ Statistics
-        stats auth admin:password  # Replace 'admin' and 'password' with your desired username and password
+We are now going to put the right config for HAProxy
 
-     frontend kube-apiserver
-        bind 192.168.1.5:6443 # This is our VIP address
-        mode tcp
-        option tcplog
-        default_backend kube-apiserver
+Open the file haproxy.cfg in the /etc/haproxy/ directory:
 
-     backend kube-apiserver
-        option httpchk GET /healthz
-        http-check expect status 200
-        mode tcp
-        option ssl-hello-chk
-        balance roundrobin
-        server k8s-controller1 192.168.1.15:6443 check # IP address of our 1st controller
-        server k8s-controller2 192.168.1.16:6443 check # IP address of our 2nd controller
-        server k8s-controller3 192.168.1.17:6443 check # IP address of our 3th controller
-     ```
-     {: file="/etc/haproxy.haproxt.cfg" }
-     Save and close the file.
-  3. Apply the changes by restarting HAProxy:
-     ```bash
-     sudo systemctl restart haproxy
-     ```
-     {: .nolineno }
+```bash
+sudo nano /etc/haproxy/haproxy.cfg
+```
+Delete all current lines and add the following to the file:
+```text
+global
+   log /dev/log  local0 info
+   chroot      /var/lib/haproxy
+   pidfile     /var/run/haproxy.pid
+   maxconn     4000
+   user        haproxy
+   group       haproxy
+   daemon
+   stats socket /var/lib/haproxy/stats
 
-- #### Access HAProxy Stats
+defaults
+   mode                    http
+   log                     global
+   option                  httplog
+   option                  dontlognull
+   option http-server-close
+   option forwardfor       except 127.0.0.0/8
+   option                  redispatch
+   retries                 1
+   timeout http-request    10s
+   timeout queue           20s
+   timeout connect         5s
+   timeout client          20s
+   timeout server          20s
+   timeout http-keep-alive 10s
+   timeout check           10s
 
-  We have configured a stats page that is running on our VIP IP address in HAProxy that can be accessed with the following URL:
-  http://192.168.1.5:9000/stats
+listen stats
+   bind 192.168.1.5:9000 # This is our VIP address
+   mode http
+   stats enable
+   stats uri /stats
+   stats realm Haproxy\ Statistics
+   stats auth admin:password  # Replace 'admin' and 'password' with your desired username and password
+
+frontend kube-apiserver
+   bind 192.168.1.5:6443 # This is our VIP address
+   mode tcp
+   option tcplog
+   default_backend kube-apiserver
+
+backend kube-apiserver
+   option httpchk GET /healthz
+   http-check expect status 200
+   mode tcp
+   option ssl-hello-chk
+   balance roundrobin
+   server k8s-controller1 192.168.1.15:6443 check # IP address of our 1st controller
+   server k8s-controller2 192.168.1.16:6443 check # IP address of our 2nd controller
+   server k8s-controller3 192.168.1.17:6443 check # IP address of our 3th controller
+```
+Save and close the file.
+
+Apply the changes by restarting HAProxy:
+
+```bash
+sudo systemctl restart haproxy
+```
+
+#### Access HAProxy Stats
+
+We have configured a stats page that is running on our VIP IP address in HAProxy that can be accessed with the following URL:
+
+http://192.168.1.5:9000/stats
 
 ## **Kubernetes nodes**
 
