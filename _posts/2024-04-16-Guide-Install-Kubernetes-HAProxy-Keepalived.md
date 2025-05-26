@@ -51,7 +51,7 @@ Repeat these steps for every HAProxy/Keepalived node. Don't forget to change the
 
   Upload the ISO to Proxmox: Log into your Proxmox web interface, navigate to 'Storage' under the 'Datacenter' settings, select your storage, and upload the Ubuntu ISO.
 
-  1. Create a New Virtual Machine:
+##### Create a New Virtual Machine:
 
       Click on "Create VM" in the Proxmox web interface.
       Enter the necessary VM configuration details such as VM ID, name, and operating system.
@@ -59,7 +59,7 @@ Repeat these steps for every HAProxy/Keepalived node. Don't forget to change the
       Allocate the recommended CPU, memory, and disk resources according to your environment's specifications.
       Under the CD/DVD tab, select the uploaded Ubuntu ISO file.
 
-  2. Install Ubuntu:
+##### Install Ubuntu:
 
       Start the VM and open the console from the Proxmox interface.
       Proceed with the Ubuntu installation by following the on-screen instructions. Ensure you install the standard server utilities and configure at least one network interface. Also be sure to enable the SSH server.
