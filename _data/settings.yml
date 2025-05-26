@@ -51,7 +51,7 @@ hero:
   hero_title: Hi! I’m Matija 👋
   hero_subtitle: A passionate advocate for open tech, transparency, and digital sovereignty.
   hero_description: |
-    Welcome to OpenTech Pulse — a space where tech is demystified.
+    Welcome to OpenTech Pulse! A space where tech is demystified.
 
     From open source tools to deep dives into how things work, this blog is about sharing knowledge and empowering people to take control of their digital lives.
   hero_image: /images/logopulse.png
@@ -139,7 +139,7 @@ mailchimp:
 
 #-------------------------------
 # Footer Settings
-footer_description: This blog is a growing archive of open tech insights — from installation guides to hands-on reviews — built for anyone who believes technology should empower, not control.
+footer_description: A growing archive of open knowledge, tutorials, reviews, and ideas. For those who believe tech should empower, not control.
 
 #-------------------------------
 # Social Settings
