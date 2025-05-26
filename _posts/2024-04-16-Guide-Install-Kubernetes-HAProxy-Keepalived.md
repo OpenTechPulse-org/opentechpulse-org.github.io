@@ -419,54 +419,54 @@ http://192.168.1.5:9000/stats
 
 ### Initial setup
 
-> All the steps outlined in [HAProxy/Keepalived nodes - Initial setup](#initial-setup) must be performed on all Kubernetes nodes, along with additional required steps. Also do a reboot of the nodes once you complete all the steps.
-{: .prompt-warning }
+{: .important }
+All the steps outlined in [HAProxy/Keepalived nodes - Initial setup](#initial-setup) must be performed on all Kubernetes nodes, along with additional required steps. Also do a reboot of the nodes once you complete all the steps.
 
-- #### Disable swap
+#### Disable swap
 
-  Disabling swap on Kubernetes nodes ensures optimal performance as it prevents disk-based memory extension, which can slow down applications due to increased I/O operations. It also aids Kubernetes in efficient resource allocation by maintaining clear visibility into actual memory usage, thereby avoiding scheduling complications. Essentially, disabling swap helps Kubernetes to manage system resources more predictably and effectively.
-  ```bash
-  sudo nano /etc/fstab
-  ```
-  {: .nolineno }
-  Comment out the line with "swap.img" in it:
-  ```text
-  ...
-  #/swap.img      none    swap    sw      0       0
-  ...
-  ```
-  {: file="/etc/fstab" }
-  Save and close the file.
+Disabling swap on Kubernetes nodes ensures optimal performance as it prevents disk-based memory extension, which can slow down applications due to increased I/O operations. It also aids Kubernetes in efficient resource allocation by maintaining clear visibility into actual memory usage, thereby avoiding scheduling complications. Essentially, disabling swap helps Kubernetes to manage system resources more predictably and effectively.
 
-- #### Enable IP Forwarding and Bridge Call
+```bash
+sudo nano /etc/fstab
+```
+Comment out the line with "swap.img" in it:
 
-  In Kubernetes, enabling IP forwarding is necessary to allow nodes to forward network traffic to pods, facilitating communication across different network interfaces. Additionally, enabling bridge calls ensures that traffic routed through a bridge (like those used by containers) is properly handled by iptables, supporting network policies and pod communication effectively. These settings are key for maintaining robust networking within a Kubernetes cluster.
+```text
+...
+#/swap.img      none    swap    sw      0       0
+...
+```
 
-  First we open the file /etc/modules
-  ```bash
-  sudo nano /etc/modules
-  ```
-  {: .nolineno }
-  And we add the following lines to it:
-  ```text
-  overlay
-  br_netfilter
-  ```
-  {: file="/etc/modules" }
-  In a Kubernetes setup, adding overlay to /etc/modules enables overlay filesystems necessary for managing containerized applications. Additionally, including br_netfilter ensures that bridged network traffic can be properly filtered, crucial for maintaining network policies and pod communication within the cluster.
+Save and close the file.
 
-  Now we add some parameters to the /etc/sysctl.conf. For this execute following commands:
-  ```bash
-  echo "net.ipv4.ip_forward=1" | sudo tee -a /etc/sysctl.conf
-  echo "net.bridge.bridge-nf-call-iptables=1" | sudo tee -a /etc/sysctl.conf
-  ```
-  {: .nolineno }
-  By adding net.ipv4.ip_forward=1 to /etc/sysctl.conf, you enable IP forwarding, crucial for allowing the node to route traffic between different pods across networks. The command net.bridge.bridge-nf-call-iptables=1 ensures that traffic passing through the network bridge is processed by iptables, allowing for proper network segmentation and policy enforcement within Kubernetes. These settings are necessary to facilitate robust network operations and security in a Kubernetes cluster.
+#### Enable IP Forwarding and Bridge Call
+
+In Kubernetes, enabling IP forwarding is necessary to allow nodes to forward network traffic to pods, facilitating communication across different network interfaces. Additionally, enabling bridge calls ensures that traffic routed through a bridge (like those used by containers) is properly handled by iptables, supporting network policies and pod communication effectively. These settings are key for maintaining robust networking within a Kubernetes cluster.
+
+First we open the file /etc/modules
+```bash
+sudo nano /etc/modules
+```
+And we add the following lines to it:
+```text
+overlay
+br_netfilter
+```
+In a Kubernetes setup, adding overlay to /etc/modules enables overlay filesystems necessary for managing containerized applications. Additionally, including br_netfilter ensures that bridged network traffic can be properly filtered, crucial for maintaining network policies and pod communication within the cluster.
+
+Now we add some parameters to the /etc/sysctl.conf. For this execute following commands:
+
+```bash
+echo "net.ipv4.ip_forward=1" | sudo tee -a /etc/sysctl.conf
+echo "net.bridge.bridge-nf-call-iptables=1" | sudo tee -a /etc/sysctl.conf
+```
+
+By adding net.ipv4.ip_forward=1 to /etc/sysctl.conf, you enable IP forwarding, crucial for allowing the node to route traffic between different pods across networks. The command net.bridge.bridge-nf-call-iptables=1 ensures that traffic passing through the network bridge is processed by iptables, allowing for proper network segmentation and policy enforcement within Kubernetes. These settings are necessary to facilitate robust network operations and security in a Kubernetes cluster.
 
 ### Setting up Containerd
 
-> Warning: Must be done on **all** nodes.
-{: .prompt-warning }
+{: .important }
+Warning: Must be done on **all** nodes.
 
 In a Kubernetes setup, containerd serves as the container runtime that directly manages the lifecycle of containers within the cluster. It handles tasks such as running containers, pulling images, and managing storage and network configurations. This is critical for the functioning of Kubernetes, as it relies on a container runtime to execute the containers that run the applications.
 
@@ -562,341 +562,353 @@ In a Kubernetes setup, containerd serves as the container runtime that directly 
 
 ### Install Kubernetes
 
-> Warning: Must be done on **all** nodes.
-{: .prompt-warning }
+{: .warning }
+Warning: Must be done on **all** nodes.
 
-- #### Add Kubernetes repositories
+#### Add Kubernetes repositories
 
-  When you install these repositories you can install the required packages using "apt"
+When you install these repositories you can install the required packages using "apt"
 
-  First we add this repo with the following commands:
-  ```bash
-  sudo apt-get install -y apt-transport-https ca-certificates curl
-  curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-  echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
-  ```
-  {: .nolineno }
+First we add this repo with the following commands:
 
-  Now we can update the package list and install Kubernetes components with the following commands:
-  ```bash
-  sudo apt-get update
-  sudo apt-get install -y kubelet kubeadm kubectl
-  sudo apt-mark hold kubelet kubeadm kubectl
-  ```
-  {: .nolineno }
+```bash
+sudo apt-get install -y apt-transport-https ca-certificates curl
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+```
 
-  Using apt-mark hold for Kubernetes packages is important to prevent unintentional updates that could disrupt the stability of your Kubernetes cluster. By marking the packages as "held," you ensure that they remain at their current versions and are not automatically upgraded when running apt-get upgrade or similar commands. This is crucial because Kubernetes components often require specific versions to maintain compatibility and stability within the cluster. Holding the packages helps prevent unexpected changes that could lead to compatibility issues or downtime in your Kubernetes environment.
+Now we can update the package list and install Kubernetes components with the following commands:
 
-- #### Initializing the controller nodes 
+```bash
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+```
 
-  1. Initialize 1st controller
+Using apt-mark hold for Kubernetes packages is important to prevent unintentional updates that could disrupt the stability of your Kubernetes cluster. By marking the packages as "held," you ensure that they remain at their current versions and are not automatically upgraded when running apt-get upgrade or similar commands. This is crucial because Kubernetes components often require specific versions to maintain compatibility and stability within the cluster. Holding the packages helps prevent unexpected changes that could lead to compatibility issues or downtime in your Kubernetes environment.
 
-     SSH into the first controller and login as root and go to the root home directory:
-     ```bash
-     sudo su
-     cd
-     ```
-     {: .nolineno }
-     Create the file kubeadm-config.yaml:
-     ```bash
-     nano kubeadm-config.yaml
-     ```
-     {: .nolineno }
-     Copy-paste the following:
-     ```yaml
-     apiVersion: kubeadm.k8s.io/v1beta3
-     kind: ClusterConfiguration
-     kubernetesVersion: "1.29.1"                         # Specify your Kubernetes version here
-     controlPlaneEndpoint: "192.168.1.5:6443"            # Your HA VIP IP
-     networking:
-         serviceSubnet: "10.96.0.0/16"                   # IPv4 service subnets
-         podSubnet: "10.244.0.0/16"                      # IPv4 pod subnets
-     apiServer:
-         extraArgs:
-            "service-cluster-ip-range": "10.96.0.0/16"
-     controllerManager:
-         extraArgs:
-            "cluster-cidr": "10.244.0.0/16"
-            "service-cluster-ip-range": "10.96.0.0/16"
-            "node-cidr-mask-size-ipv4": "24"
-     ---
-     apiVersion: kubeadm.k8s.io/v1beta3
-     kind: InitConfiguration
-     localAPIEndpoint:
-         advertiseAddress: "192.168.1.15"                # Local IP
-     nodeRegistration:
-         kubeletExtraArgs:
-            "node-ip": "192.168.1.15"                    # Node specific IP (Local IP)
-     ```
-     {: file="/root/kubeadm-config.yaml" }
-     Save and close the file.
+#### Initializing the controller nodes 
 
-     Now we are going to initialize the first controller with the kubeadm command:
-     ```bash
-     kubeadm init --config kubeadm-config.yaml --upload-certs
-     ```
-     {: .nolineno }
-     This command initializes a Kubernetes control-plane node using the configuration defined in the specified YAML file (kubeadm-config.yaml). Additionally, it uploads the generated TLS certificates to a Kubernetes Secret in the cluster, facilitating secure communication between control-plane components and worker nodes.
-     > You'll need the certificateKey, token, and caCertHashes generated during the execution of kubeadm init --config kubeadm-config.yaml --upload-certs for configuring and authenticating additional control-plane nodes and worker nodes in your Kubernetes cluster. I advise you to copy them for quick access. 
-     {: .prompt-tip }
+Initialize 1st controller:
 
-  2. Initialize 2nd controller
+SSH into the first controller and login as root and go to the root home directory:
 
-     SSH into the second controller and login as root and go to the root home directory:
-     ```bash
-     sudo su
-     cd
-     ```
-     {: .nolineno }
-     Create the file kubeadm-config.yaml:
-     ```bash
-     nano kubeadm-config.yaml
-     ```
-     {: .nolineno }
-     Copy-paste the following:
-     ```yaml
-     apiVersion: kubeadm.k8s.io/v1beta3
-     kind: ClusterConfiguration
-     kubernetesVersion: "1.29.1"                         # Specify your Kubernetes version here
-     controlPlaneEndpoint: "192.168.1.5:6443"            # Your HA VIP IP
-     networking:
-         serviceSubnet: "10.96.0.0/16"                   # IPv4 service subnets
-         podSubnet: "10.244.0.0/16"                      # IPv4 pod subnets
-     apiServer:
-         extraArgs:
-            "service-cluster-ip-range": "10.96.0.0/16"
-     controllerManager:
-         extraArgs:
-            "cluster-cidr": "10.244.0.0/16"
-            "service-cluster-ip-range": "10.96.0.0/16"
-            "node-cidr-mask-size-ipv4": "24"
-     ---
-     apiVersion: kubeadm.k8s.io/v1beta3
-     kind: JoinConfiguration
-     controlPlane:
-      localAPIEndpoint:
-         advertiseAddress: "192.168.1.16"                # Local IP
-         bindPort: 6443
-      certificateKey: "xxx"                              # The certificate key from the first control plane node
-     discovery:
-      bootstrapToken:
-         apiServerEndpoint: "192.168.1.5"                # HA VIP IP
-         token: "xxx"                                    # The token from the first controller
-         caCertHashes:
-            - "sha256:xxx"                               # The cert hash from the first controller
-     nodeRegistration:
-      kubeletExtraArgs:
-         node-ip: "192.168.1.16"                         # Node specific IP (Local IP)
-     ```
-     {: file="/root/kubeadm-config.yaml" }
-     Save and close the file.
+```bash
+sudo su
+cd
+```
 
-     Now we are going to join this second controller with the following command:
-     ```bash
-     kubeadm join --config kubeadm-config.yaml
-     ```
-     {: .nolineno }
-     This command is used to join additional control-plane nodes or worker nodes to an existing Kubernetes cluster.
+Create the file kubeadm-config.yaml:
 
-  3. Initialize 3th controller
+```bash
+nano kubeadm-config.yaml
+```
 
-     SSH into the thirth controller and login as root and go to the root home directory:
-     ```bash
-     sudo su
-     cd
-     ```
-     {: .nolineno }
-     Create the file kubeadm-config.yaml:
-     ```bash
-     nano kubeadm-config.yaml
-     ```
-     {: .nolineno }
-     Copy-paste the following:
-     ```yaml
-     apiVersion: kubeadm.k8s.io/v1beta3
-     kind: ClusterConfiguration
-     kubernetesVersion: "1.29.1"                         # Specify your Kubernetes version here
-     controlPlaneEndpoint: "192.168.1.5:6443"            # Your HA VIP IP
-     networking:
-         serviceSubnet: "10.96.0.0/16"                   # IPv4 service subnets
-         podSubnet: "10.244.0.0/16"                      # IPv4 pod subnets
-     apiServer:
-         extraArgs:
-            "service-cluster-ip-range": "10.96.0.0/16"
-     controllerManager:
-         extraArgs:
-            "cluster-cidr": "10.244.0.0/16"
-            "service-cluster-ip-range": "10.96.0.0/16"
-            "node-cidr-mask-size-ipv4": "24"
-     ---
-     apiVersion: kubeadm.k8s.io/v1beta3
-     kind: JoinConfiguration
-     controlPlane:
-      localAPIEndpoint:
-         advertiseAddress: "192.168.1.17"                # Local IP
-         bindPort: 6443
-      certificateKey: "xxx"                              # The certificate key from the first control plane node
-     discovery:
-      bootstrapToken:
-         apiServerEndpoint: "192.168.1.5"                # HA VIP IP
-         token: "xxx"                                    # The token from the first controller
-         caCertHashes:
-            - "sha256:xxx"                               # The cert hash from the first controller
-     nodeRegistration:
-      kubeletExtraArgs:
-         node-ip: "192.168.1.17"                         # Node specific IP (Local IP)
-     ```
-     {: file="/root/kubeadm-config.yaml" }
-     Save and close the file.
+Copy-paste the following:
+```yaml
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+kubernetesVersion: "1.29.1"                         # Specify your Kubernetes version here
+controlPlaneEndpoint: "192.168.1.5:6443"            # Your HA VIP IP
+networking:
+    serviceSubnet: "10.96.0.0/16"                   # IPv4 service subnets
+    podSubnet: "10.244.0.0/16"                      # IPv4 pod subnets
+apiServer:
+    extraArgs:
+       "service-cluster-ip-range": "10.96.0.0/16"
+controllerManager:
+    extraArgs:
+       "cluster-cidr": "10.244.0.0/16"
+       "service-cluster-ip-range": "10.96.0.0/16"
+       "node-cidr-mask-size-ipv4": "24"
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+localAPIEndpoint:
+    advertiseAddress: "192.168.1.15"                # Local IP
+nodeRegistration:
+    kubeletExtraArgs:
+       "node-ip": "192.168.1.15"                    # Node specific IP (Local IP)
+```
 
-     Now we are going to join this thirth controller with the following command:
-     ```bash
-     kubeadm join --config kubeadm-config.yaml
-     ```
-     {: .nolineno }
-     This command is used to join additional control-plane nodes or worker nodes to an existing Kubernetes cluster.
+Save and close the file.
 
-  4. Install Calico
+Now we are going to initialize the first controller with the kubeadm command:
 
-     Calico is essential in Kubernetes to manage and secure network communication both within the cluster and between the cluster and external services. It provides network segmentation, which isolates different workloads from each other, enhancing security. Additionally, Calico enables enforcement of detailed network policies that dictate how pods communicate with each other, helping prevent unauthorized access and mitigating potential attacks within the cluster. This makes Calico a crucial tool for maintaining robust network security and performance in Kubernetes environments.
+```bash
+kubeadm init --config kubeadm-config.yaml --upload-certs
+```
+This command initializes a Kubernetes control-plane node using the configuration defined in the specified YAML file (kubeadm-config.yaml). Additionally, it uploads the generated TLS certificates to a Kubernetes Secret in the cluster, facilitating secure communication between control-plane components and worker nodes.
 
-     You can install Calico directly by applying a YAML file from the official Calico site. This YAML file contains all the necessary Kubernetes resources (like DaemonSets, Deployments, ConfigMaps, etc.) needed for Calico.
-     ```bash
-     kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
-     ```
-     {: .nolineno }
-     After applying the YAML file, check that all the Calico pods are running by using the following command:
-     ```bash
-     kubectl get pods -n kube-system | grep calico
-     ```
-     {: .nolineno }
-     You should see the Calico pods listed as running. Something like this:
-     ```bash
-     root@k8s-master1:~# kubectl get pods -n kube-system | grep calico
-     calico-kube-controllers-7ddc4f45bc-dbxdg   1/1     Running   5 (19d ago)    78d
-     calico-node-4cdbk                          1/1     Running   4 (18d ago)    75d
-     calico-node-4dmqk                          1/1     Running   1 (73d ago)    78d
-     calico-node-5jlzz                          1/1     Running   2 (18d ago)    75d
-     calico-node-6ks2f                          1/1     Running   2 (18d ago)    76d
-     calico-node-6lms7                          1/1     Running   2 (73d ago)    75d
-     calico-node-bkmws                          1/1     Running   2 (18d ago)    78d
-     calico-node-ck774                          1/1     Running   1 (73d ago)    78d
-     calico-node-cqw2p                          1/1     Running   2 (18d ago)    75d
-     calico-node-fqhnl                          1/1     Running   3 (18d ago)    76d
-     calico-node-frhvb                          1/1     Running   2 (18d ago)    76d
-     calico-node-kht48                          1/1     Running   4 (18d ago)    75d
-     calico-node-mlds7                          1/1     Running   1 (73d ago)    78d
-     calico-node-q7kst                          1/1     Running   2 (18d ago)    75d
-     calico-node-rbbsx                          1/1     Running   2 (18d ago)    76d
-     calico-node-rdtjp                          1/1     Running   2 (18d ago)    76d
-     calico-node-t9cjl                          1/1     Running   2 (18d ago)    76d
-     calico-node-tq4nv                          1/1     Running   2 (18d ago)    76d
-     ```
-     {: .nolineno }
+{: .important }
+You'll need the certificateKey, token, and caCertHashes generated during the execution of kubeadm init --config kubeadm-config.yaml --upload-certs for configuring and authenticating additional control-plane nodes and worker nodes in your Kubernetes cluster. I advise you to copy them for quick access. 
 
-     When this is all good you could do a 'kubectl get nodes' and the output should be this:
-     ```bash
-     root@k8s-master1:~# kubectl get nodes
-     NAME           STATUS   ROLES           AGE   VERSION
-     k8s-master1    Ready    control-plane   78d   v1.29.1
-     k8s-master2    Ready    control-plane   78d   v1.29.1
-     k8s-master3    Ready    control-plane   78d   v1.29.1
-     ```
-     {: .nolineno }
-     All the controllers should be status Ready.
+Initialize 2nd controller:
 
-- #### Joining the worker nodes
+SSH into the second controller and login as root and go to the root home directory:
 
-     Worker nodes in a Kubernetes cluster are the machines that run your applications and workloads. They are responsible for executing containerized tasks assigned by the control plane. Each worker node runs a kubelet, which is an agent that communicates with the Kubernetes master to ensure containers are running as intended. Worker nodes also manage networking for the containers, allocate resources, and handle storage, providing the necessary infrastructure to support the demands of your applications. Essentially, they do the heavy lifting that keeps applications running smoothly and efficiently.
+```bash
+sudo su
+cd
+ ```
 
-     To join a worker node to the cluster you need to do the following.
+Create the file kubeadm-config.yaml:
 
-     SSH into the worker node and login as root and go to the root home directory:
-     ```bash
-     sudo su
-     cd
-     ```
-     {: .nolineno }
-     Create the file kubeadm-config.yaml:
-     ```bash
-     nano kubeadm-config.yaml
-     ```
-     {: .nolineno }
-     Copy-paste the following:
-     ```yaml
-     apiVersion: kubeadm.k8s.io/v1beta3
-     kind: JoinConfiguration
-     discovery:
-      bootstrapToken:
-         apiServerEndpoint: "192.168.1.5:6443"           # HA VIP IP
-         token: "xxx"                                    # The token from the first controller
-         caCertHashes:
-            - "sha256:xxx"                               # The cert hash from the first controller
-     nodeRegistration:
-      kubeletExtraArgs:
-         node-ip: "192.168.1.20"                         # Node specific IP (Local IP) / DON'T FORGET TO CHANGE
-     ```
-     {: file="/root/kubeadm-config.yaml" }
-     Save and close the file.
+```bash
+nano kubeadm-config.yaml
+ ```
 
-     Now we are going to join this thirth controller with the following command:
-     ```bash
-     kubeadm join --config kubeadm-config.yaml
-     ```
-     {: .nolineno }
-     This command is used to join additional worker nodes to an existing Kubernetes cluster.
+Copy-paste the following:
 
-     When you joined the last worker you can get a list of all nodes in the cluster by running following command on controller 1:
-     ```bash
-     root@k8s-master1:~# kubectl get nodes
-     NAME           STATUS   ROLES           AGE   VERSION
-     k8s-master1    Ready    control-plane   78d   v1.29.1
-     k8s-master2    Ready    control-plane   78d   v1.29.1
-     k8s-master3    Ready    control-plane   78d   v1.29.1
-     k8s-storage1   Ready                    75d   v1.29.1
-     k8s-storage2   Ready                    75d   v1.29.1
-     k8s-storage3   Ready                    75d   v1.29.1
-     k8s-storage4   Ready                    75d   v1.29.1
-     k8s-worker1    Ready                    78d   v1.29.1
-     k8s-worker10   Ready                    75d   v1.29.1
-     k8s-worker2    Ready                    76d   v1.29.1
-     k8s-worker3    Ready                    76d   v1.29.1
-     k8s-worker4    Ready                    76d   v1.29.1
-     k8s-worker5    Ready                    76d   v1.29.1
-     k8s-worker6    Ready                    76d   v1.29.1
-     k8s-worker7    Ready                    76d   v1.29.1
-     k8s-worker8    Ready                    76d   v1.29.1
-     k8s-worker9    Ready                    75d   v1.29.1
-     ```
-     {: .nolineno }
-     You see that the ROLE is empy, we can define this by running following command on controller 1:
-     ```bash
-     kubectl label node k8s-worker1 node-role.kubernetes.io/worker=
-     ```
-     {: .nolineno }
-     Do this for every worker node and you will get something like this:
-     ```bash
-     root@k8s-master1:~# kubectl get nodes
-     NAME           STATUS   ROLES           AGE   VERSION
-     k8s-master1    Ready    control-plane   78d   v1.29.1
-     k8s-master2    Ready    control-plane   78d   v1.29.1
-     k8s-master3    Ready    control-plane   78d   v1.29.1
-     k8s-storage1   Ready    worker          75d   v1.29.1
-     k8s-storage2   Ready    worker          75d   v1.29.1
-     k8s-storage3   Ready    worker          75d   v1.29.1
-     k8s-storage4   Ready    worker          75d   v1.29.1
-     k8s-worker1    Ready    worker          78d   v1.29.1
-     k8s-worker10   Ready    worker          75d   v1.29.1
-     k8s-worker2    Ready    worker          76d   v1.29.1
-     k8s-worker3    Ready    worker          76d   v1.29.1
-     k8s-worker4    Ready    worker          76d   v1.29.1
-     k8s-worker5    Ready    worker          76d   v1.29.1
-     k8s-worker6    Ready    worker          76d   v1.29.1
-     k8s-worker7    Ready    worker          76d   v1.29.1
-     k8s-worker8    Ready    worker          76d   v1.29.1
-     k8s-worker9    Ready    worker          75d   v1.29.1
-     ```
-     {: .nolineno }
+```yaml
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+kubernetesVersion: "1.29.1"                         # Specify your Kubernetes version here
+controlPlaneEndpoint: "192.168.1.5:6443"            # Your HA VIP IP
+networking:
+    serviceSubnet: "10.96.0.0/16"                   # IPv4 service subnets
+    podSubnet: "10.244.0.0/16"                      # IPv4 pod subnets
+apiServer:
+    extraArgs:
+       "service-cluster-ip-range": "10.96.0.0/16"
+controllerManager:
+    extraArgs:
+       "cluster-cidr": "10.244.0.0/16"
+       "service-cluster-ip-range": "10.96.0.0/16"
+       "node-cidr-mask-size-ipv4": "24"
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: JoinConfiguration
+controlPlane:
+ localAPIEndpoint:
+    advertiseAddress: "192.168.1.16"                # Local IP
+    bindPort: 6443
+ certificateKey: "xxx"                              # The certificate key from the first control plane node
+discovery:
+ bootstrapToken:
+    apiServerEndpoint: "192.168.1.5"                # HA VIP IP
+    token: "xxx"                                    # The token from the first controller
+    caCertHashes:
+       - "sha256:xxx"                               # The cert hash from the first controller
+nodeRegistration:
+ kubeletExtraArgs:
+    node-ip: "192.168.1.16"                         # Node specific IP (Local IP)
+```
+
+Save and close the file.
+
+Now we are going to join this second controller with the following command:
+
+```bash
+kubeadm join --config kubeadm-config.yaml
+```
+This command is used to join additional control-plane nodes or worker nodes to an existing Kubernetes cluster.
+
+Initialize 3th controller:
+
+SSH into the thirth controller and login as root and go to the root home directory:
+
+```bash
+sudo su
+cd
+```
+
+Create the file kubeadm-config.yaml:
+```bash
+nano kubeadm-config.yaml
+```
+Copy-paste the following:
+
+```yaml
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+kubernetesVersion: "1.29.1"                         # Specify your Kubernetes version here
+controlPlaneEndpoint: "192.168.1.5:6443"            # Your HA VIP IP
+networking:
+    serviceSubnet: "10.96.0.0/16"                   # IPv4 service subnets
+    podSubnet: "10.244.0.0/16"                      # IPv4 pod subnets
+apiServer:
+    extraArgs:
+       "service-cluster-ip-range": "10.96.0.0/16"
+controllerManager:
+    extraArgs:
+       "cluster-cidr": "10.244.0.0/16"
+       "service-cluster-ip-range": "10.96.0.0/16"
+       "node-cidr-mask-size-ipv4": "24"
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: JoinConfiguration
+controlPlane:
+ localAPIEndpoint:
+    advertiseAddress: "192.168.1.17"                # Local IP
+    bindPort: 6443
+ certificateKey: "xxx"                              # The certificate key from the first control plane node
+discovery:
+ bootstrapToken:
+    apiServerEndpoint: "192.168.1.5"                # HA VIP IP
+    token: "xxx"                                    # The token from the first controller
+    caCertHashes:
+       - "sha256:xxx"                               # The cert hash from the first controller
+nodeRegistration:
+ kubeletExtraArgs:
+    node-ip: "192.168.1.17"                         # Node specific IP (Local IP)
+```
+
+Save and close the file.
+
+Now we are going to join this thirth controller with the following command:
+```bash
+kubeadm join --config kubeadm-config.yaml
+```
+
+This command is used to join additional control-plane nodes or worker nodes to an existing Kubernetes cluster.
+
+Install Calico:
+
+Calico is essential in Kubernetes to manage and secure network communication both within the cluster and between the cluster and external services. It provides network segmentation, which isolates different workloads from each other, enhancing security. Additionally, Calico enables enforcement of detailed network policies that dictate how pods communicate with each other, helping prevent unauthorized access and mitigating potential attacks within the cluster. This makes Calico a crucial tool for maintaining robust network security and performance in Kubernetes environments.
+
+You can install Calico directly by applying a YAML file from the official Calico site. This YAML file contains all the necessary Kubernetes resources (like DaemonSets, Deployments, ConfigMaps, etc.) needed for Calico.
+```bash
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+```
+
+After applying the YAML file, check that all the Calico pods are running by using the following command:
+```bash
+kubectl get pods -n kube-system | grep calico
+```
+
+You should see the Calico pods listed as running. Something like this:
+```bash
+root@k8s-master1:~# kubectl get pods -n kube-system | grep calico
+calico-kube-controllers-7ddc4f45bc-dbxdg   1/1     Running   5 (19d ago)    78d
+calico-node-4cdbk                          1/1     Running   4 (18d ago)    75d
+calico-node-4dmqk                          1/1     Running   1 (73d ago)    78d
+calico-node-5jlzz                          1/1     Running   2 (18d ago)    75d
+calico-node-6ks2f                          1/1     Running   2 (18d ago)    76d
+calico-node-6lms7                          1/1     Running   2 (73d ago)    75d
+calico-node-bkmws                          1/1     Running   2 (18d ago)    78d
+calico-node-ck774                          1/1     Running   1 (73d ago)    78d
+calico-node-cqw2p                          1/1     Running   2 (18d ago)    75d
+calico-node-fqhnl                          1/1     Running   3 (18d ago)    76d
+calico-node-frhvb                          1/1     Running   2 (18d ago)    76d
+calico-node-kht48                          1/1     Running   4 (18d ago)    75d
+calico-node-mlds7                          1/1     Running   1 (73d ago)    78d
+calico-node-q7kst                          1/1     Running   2 (18d ago)    75d
+calico-node-rbbsx                          1/1     Running   2 (18d ago)    76d
+calico-node-rdtjp                          1/1     Running   2 (18d ago)    76d
+calico-node-t9cjl                          1/1     Running   2 (18d ago)    76d
+calico-node-tq4nv                          1/1     Running   2 (18d ago)    76d
+```
+
+
+When this is all good you could do a 'kubectl get nodes' and the output should be this:
+```bash
+root@k8s-master1:~# kubectl get nodes
+NAME           STATUS   ROLES           AGE   VERSION
+k8s-master1    Ready    control-plane   78d   v1.29.1
+k8s-master2    Ready    control-plane   78d   v1.29.1
+k8s-master3    Ready    control-plane   78d   v1.29.1
+```
+
+All the controllers should be status Ready.
+
+#### Joining the worker nodes
+
+Worker nodes in a Kubernetes cluster are the machines that run your applications and workloads. They are responsible for executing containerized tasks assigned by the control plane. Each worker node runs a kubelet, which is an agent that communicates with the Kubernetes master to ensure containers are running as intended. Worker nodes also manage networking for the containers, allocate resources, and handle storage, providing the necessary infrastructure to support the demands of your applications. Essentially, they do the heavy lifting that keeps applications running smoothly and efficiently.
+
+To join a worker node to the cluster you need to do the following.
+
+SSH into the worker node and login as root and go to the root home directory:
+
+```bash
+sudo su
+cd
+```
+
+Create the file kubeadm-config.yaml:
+```bash
+nano kubeadm-config.yaml
+```
+
+Copy-paste the following:
+
+```yaml
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: JoinConfiguration
+discovery:
+ bootstrapToken:
+    apiServerEndpoint: "192.168.1.5:6443"           # HA VIP IP
+    token: "xxx"                                    # The token from the first controller
+    caCertHashes:
+       - "sha256:xxx"                               # The cert hash from the first controller
+nodeRegistration:
+ kubeletExtraArgs:
+    node-ip: "192.168.1.20"                         # Node specific IP (Local IP) / DON'T FORGET TO CHANGE
+```
+
+Save and close the file.
+
+Now we are going to join this thirth controller with the following command:
+
+```bash
+kubeadm join --config kubeadm-config.yaml
+```
+
+This command is used to join additional worker nodes to an existing Kubernetes cluster.
+
+When you joined the last worker you can get a list of all nodes in the cluster by running following command on controller 1:
+
+```bash
+root@k8s-master1:~# kubectl get nodes
+NAME           STATUS   ROLES           AGE   VERSION
+k8s-master1    Ready    control-plane   78d   v1.29.1
+k8s-master2    Ready    control-plane   78d   v1.29.1
+k8s-master3    Ready    control-plane   78d   v1.29.1
+k8s-storage1   Ready                    75d   v1.29.1
+k8s-storage2   Ready                    75d   v1.29.1
+k8s-storage3   Ready                    75d   v1.29.1
+k8s-storage4   Ready                    75d   v1.29.1
+k8s-worker1    Ready                    78d   v1.29.1
+k8s-worker10   Ready                    75d   v1.29.1
+k8s-worker2    Ready                    76d   v1.29.1
+k8s-worker3    Ready                    76d   v1.29.1
+k8s-worker4    Ready                    76d   v1.29.1
+k8s-worker5    Ready                    76d   v1.29.1
+k8s-worker6    Ready                    76d   v1.29.1
+k8s-worker7    Ready                    76d   v1.29.1
+k8s-worker8    Ready                    76d   v1.29.1
+k8s-worker9    Ready                    75d   v1.29.1
+```
+
+You see that the ROLE is empy, we can define this by running following command on controller 1:
+
+```bash
+kubectl label node k8s-worker1 node-role.kubernetes.io/worker=
+```
+
+Do this for every worker node and you will get something like this:
+
+```bash
+root@k8s-master1:~# kubectl get nodes
+NAME           STATUS   ROLES           AGE   VERSION
+k8s-master1    Ready    control-plane   78d   v1.29.1
+k8s-master2    Ready    control-plane   78d   v1.29.1
+k8s-master3    Ready    control-plane   78d   v1.29.1
+k8s-storage1   Ready    worker          75d   v1.29.1
+k8s-storage2   Ready    worker          75d   v1.29.1
+k8s-storage3   Ready    worker          75d   v1.29.1
+k8s-storage4   Ready    worker          75d   v1.29.1
+k8s-worker1    Ready    worker          78d   v1.29.1
+k8s-worker10   Ready    worker          75d   v1.29.1
+k8s-worker2    Ready    worker          76d   v1.29.1
+k8s-worker3    Ready    worker          76d   v1.29.1
+k8s-worker4    Ready    worker          76d   v1.29.1
+k8s-worker5    Ready    worker          76d   v1.29.1
+k8s-worker6    Ready    worker          76d   v1.29.1
+k8s-worker7    Ready    worker          76d   v1.29.1
+k8s-worker8    Ready    worker          76d   v1.29.1
+k8s-worker9    Ready    worker          75d   v1.29.1
+ ```
 
 ## **Summary**
 
