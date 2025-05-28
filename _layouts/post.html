@@ -76,6 +76,9 @@ layout: default
       {% if site.data.settings.disqus.enable == true and site.data.settings.disqus.disqus_identifier %}
         {% include disqus-comments.html %}
       {% endif %}
+      {% if site.data.settings.gisqus.enable == true %}
+        {% include gisqus-comments.html %}
+      {% endif %}
       {% include related-posts.html %}
     </div>
 
