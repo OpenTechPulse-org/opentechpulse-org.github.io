@@ -5,6 +5,9 @@ permalink: /about/
 image: '/images/aboutme.png'
 ---
 
+> Open tech isn’t just about code. It’s about choice, creativity, and control.
+> <cite>– Matija</cite>
+
 Hi, I’m Matija. a digital explorer and passionate advocate for open tech, digital freedom, and innovation.
 
 I’ve always been curious about how technology works — not just on the surface, but deep under the hood. Over time, that curiosity grew into a belief: that tech should be transparent, open, and in the hands of its users. That belief is what led me to create OpenTech Pulse.
