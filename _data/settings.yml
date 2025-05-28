@@ -61,19 +61,21 @@ hero:
 
 # Logos
 logos:
-  enable: false
-  logos_title: Nerd Stuff
+  enable: true
+  logos_title: Powering the Pulse
   logo_image:
-    - alt: "Game Boy"
-      image: "/images/1000.jpg"
-    - alt: "Super Nintendo"
-      image: "/images/1001.jpg"
-    - alt: "Keyboard"
-      image: "/images/1002.jpg"
-    - alt: "Headphones"
-      image: "/images/1003.jpg"
-    - alt: "Mouse"
-      image: "/images/1004.jpg"
+    - alt: "Proxmox VE"
+      image: "/images/powering-the-pulse/Proxmox.png"
+    - alt: "pfSense"
+      image: "/images/powering-the-pulse/pfSense.png"
+    - alt: "Grafana"
+      image: "/images/powering-the-pulse/Grafana.png"
+    - alt: "Zabbix"
+      image: "/images/powering-the-pulse/zabbix-logo.png"
+    - alt: "TrueNAS"
+      image: "/images/powering-the-pulse/TrueNASScale.png"
+    - alt: "Ubuntu"
+      image: "/images/powering-the-pulse/Ubuntu.png"
 
 #-------------------------------
 # Section Blog Settings
