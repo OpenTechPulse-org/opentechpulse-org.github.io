@@ -6,6 +6,7 @@ image: '/images/aboutme.png'
 ---
 
 > Open tech isn’t just about code. It’s about choice, creativity, and control.
+>
 > <cite>– Matija</cite>
 
 Hi, I’m Matija. a digital explorer and passionate advocate for open tech, digital freedom, and innovation.
