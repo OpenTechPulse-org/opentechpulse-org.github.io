@@ -1,11 +1,13 @@
 ---
 layout: post
 title: Installing Kubernetes on Proxmox with HAProxy and Keepalived (Guide)
+description: Learn how to set up a highly available Kubernetes cluster using HAProxy and Keepalived for load balancing and failover on your own infrastructure.
 date: 2024-04-16 12:00:00 +0200
 tags: [Guides, Kubernetes, HAproxy, Keepalived]
-img_path: '/images/Guide-Kubernetes-haproxy-keepalived/'
-image: 'Preview.webp'
+tags_color: '#4643ec'
+image: '/images/Guide-Kubernetes-haproxy-keepalived/Preview.webp'
 toc: true
+featured: true
 ---
 
 In this comprehensive guide, I will walk you through the process of setting up and configuring Kubernetes nodes equipped with HAProxy/Keepalived to ensure high availability. We will use Proxmox as our virtualization platform, a popular choice for deploying and managing virtual environments. The tutorial will cover the initial setup, including the installation of necessary software and configuration of network settings, followed by a step-by-step explanation of how to integrate HAProxy/Keepalived with Kubernetes. This setup will enhance your cluster's resilience to hardware and software failures, ensuring a robust and reliable system. Whether you are new to Kubernetes or looking to expand your knowledge, this guide will provide valuable insights and practical steps to help you build a high-availability Kubernetes cluster using Proxmox.
