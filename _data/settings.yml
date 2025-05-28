@@ -76,6 +76,10 @@ logos:
       image: "/images/powering-the-pulse/TrueNASScale.png"
     - alt: "Ubuntu"
       image: "/images/powering-the-pulse/Ubuntu.png"
+    - alt: "ceph"
+      image: "/images/powering-the-pulse/ceph.png"
+    - alt: "Wazuh"
+      image: "/images/powering-the-pulse/wazuh.png"
 
 #-------------------------------
 # Section Blog Settings
