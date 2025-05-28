@@ -1,12 +1,10 @@
 ---
 layout: post
 title: Installing Kubernetes on Proxmox with HAProxy and Keepalived (Guide)
-date: 2024-04-16 12:00:00 +/-TTTT
-#categories: [Guides, Kubernetes]
-tags: [Guides, kubernetes, haproxy, keepalived]     # TAG names should always be lowercase
-#author: matija
-#img_path: /assets/img/Guide-Kubernetes-haproxy-keepalived/
-image: '/images/Guide-Kubernetes-haproxy-keepalived/Preview.webp'
+date: 2024-04-16 12:00:00 +0200
+tags: [Guides, Kubernetes, HAproxy, Keepalived]
+img_path: '/images/Guide-Kubernetes-haproxy-keepalived/'
+image: 'Preview.webp'
 toc: true
 ---
 
