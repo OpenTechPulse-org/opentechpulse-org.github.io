@@ -537,38 +537,9 @@
 }
 
 /* Gisqus */
-.gisqus-show-comments {
-  padding: 48px 0;
-  margin: 48px 0;
-  text-align: center;
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
-
-  .giscus-show-comments__title {
-    margin-bottom: 0;
-    font-weight: 600;
-  }
-
-  .gisqus-button {
-    margin-top: 20px;
-  }
-
-  @media (max-width: $mobile) {
-    padding: 40px 0;
-    margin: 40px 0;
-  }
-}
-
-.giscus-post__comments {
+#giscus-container {
   margin-top: 48px;
-
-  @media (max-width: $mobile) {
-    &.is-open {
-      margin-bottom: 40px;
-    }
-  }
 }
-
 
 /* 404 */
 .error {
