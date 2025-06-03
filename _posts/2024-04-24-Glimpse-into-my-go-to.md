@@ -1,7 +1,7 @@
 ---
 layout: post
 title: A glimpse into my Go-To setup - Deploy a Promox CEPH HCI cluster
-description:
+description: Take a glimpse into the essential tools, apps, and gear I rely on daily, from open source software to minimalist hardware setups that support productivity, creativity, and digital sovereignty.
 date: 2024-04-24 12:00:00 +0200
 tags: [Proxmox, pfSense, CEPH, HCI]
 tags_color: '#46430c'
@@ -14,13 +14,13 @@ In this post, I will show you my basic go-to setup when a client asks my company
 
 In deploying my go-to virtualization setup, I typically employ the following configuration to ensure both performance and resilience:
 
-- Three Proxmox Nodes: These are the backbone of the cluster, providing the necessary redundancy and load balancing to handle virtual machines and containers efficiently  Using three nodes allows us to build a robust environment with high availability and failover capabilities.
+<b>Minimum three Proxmox Nodes:</b> These are the backbone of the cluster, providing the necessary redundancy and load balancing to handle virtual machines and containers efficiently  Using three nodes allows us to build a robust environment with high availability and failover capabilities.
 
-- One TrueNAS Node: For reliable and scalable storage, I incorporate a dedicated TrueNAS node. This setup offers excellent data protection features and is critical for storage-intensive applications, ensuring data integrity and easy management.
+<b>One TrueNAS Node:</b> For reliable and scalable storage, I incorporate a dedicated TrueNAS node. This setup offers excellent data protection features and is critical for storage-intensive applications, ensuring data integrity and easy management.
 
-- One or more 10Gb Switches: Network speed and bandwidth are crucial for high-performance virtual environments. Deploying 10Gb switches enables swift intra-cluster communication and efficient data transfer, reducing bottlenecks and improving overall network performance. For our CEPH storage within the Proxmox environment, network performance is not just a benefit—it's a necessity. CEPH relies heavily on network speed for replication and data distribution across the cluster. This is why we ensure that each deployment includes at least one 10Gb switch. High-speed switches are crucial for maintaining swift and seamless access to storage, significantly enhancing both the performance and reliability of the CEPH cluster. By integrating 10Gb or higher network infrastructure, we effectively minimize latency and maximize throughput, which is essential for the demanding workloads and large data volumes handled by CEPH.
+<b>One or more 10Gb Switches:</b> Network speed and bandwidth are crucial for high-performance virtual environments. Deploying 10Gb switches enables swift intra-cluster communication and efficient data transfer, reducing bottlenecks and improving overall network performance. For our CEPH storage within the Proxmox environment, network performance is not just a benefit—it's a necessity. CEPH relies heavily on network speed for replication and data distribution across the cluster. This is why we ensure that each deployment includes at least one 10Gb switch. High-speed switches are crucial for maintaining swift and seamless access to storage, significantly enhancing both the performance and reliability of the CEPH cluster. By integrating 10Gb or higher network infrastructure, we effectively minimize latency and maximize throughput, which is essential for the demanding workloads and large data volumes handled by CEPH.
 
-- One or More pfSense Appliances: To manage network security and routing, pfSense appliances are integral. These provide robust firewall protection, VPN capabilities, and advanced routing features to secure and optimize network traffic.
+One or more pfSense Appliances: To manage network security and routing, pfSense appliances are integral. These provide robust firewall protection, VPN capabilities, and advanced routing features to secure and optimize network traffic.
 
 This configuration has proven effective across various deployments, offering a solid foundation for scalable and secure virtualization solutions tailored to meet the diverse needs of our clients.
 
@@ -84,9 +84,6 @@ The UniFi Enterprise XG 24 is a highly capable switch that offers a variety of a
 ![pfSenseAppliance](/images/Glimpse-into-my-go-to-setup/pfSenseAppliance.webp)
 
 We prefer to use pfSense appliances in our network setups due to their reliability and rich feature set. pfSense provides an intuitive interface for managing a wide range of network tasks, from firewalling and VPN services to load balancing and traffic shaping. Its flexibility in handling complex routing protocols and network configurations makes it an indispensable tool for us, ensuring our deployments are both secure and highly customizable to meet specific client needs.
-
-<br>
-<br>
 
 I hope this dive into our go-to Proxmox, pfSense, and TrueNAS configuration has provided you with a clear understanding of how these technologies can be combined to create a robust and efficient virtualization environment. We've refined our setup over many projects, aiming to strike a balance between performance, scalability, and ease of use. Whether you're just starting out or looking to optimize an existing system, I encourage you to experiment with these solutions.
 
