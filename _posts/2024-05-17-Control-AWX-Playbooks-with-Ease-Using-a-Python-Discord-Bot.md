@@ -17,13 +17,14 @@ featured: true
 * Kubernetes cluster
 * The AWX Operator installed. You can find the official docs <a href="https://ansible.readthedocs.io/projects/awx-operator/en/latest/index.html" target="_blank">here</a> or have a look at this <a href="https://porthit.com/installing-awx-on-kubernetes-using-helm/" target="_blank">guide</a>.
 * For Discord:
-** A bot on preferably a private server. For info on setting up a private Discrod server follow this <a href="https://support.discord.com/hc/en-us/articles/206143407-How-do-I-set-up-a-private-server" target="_blank">guide</a>. To setup your bot follow this <a href="https://discordpy.readthedocs.io/en/stable/discord.html" target="_blank">guide</a>.
-** Webhook for channel: You need a webhook URL to send messages to a specific channel. Folllow this <a href="https://medium.com/@binaya.puri/how-to-obtain-a-discord-webhook-url-a-step-by-step-guide-719fddcd592b" target="_blank">guide</a>.
+* * A bot on preferably a private server. For info on setting up a private Discrod server follow this <a href="https://support.discord.com/hc/en-us/articles/206143407-How-do-I-set-up-a-private-server" target="_blank">guide</a>. To setup your bot follow this <a href="https://discordpy.readthedocs.io/en/stable/discord.html" target="_blank">guide</a>.
+* * Webhook for channel: You need a webhook URL to send messages to a specific channel. Folllow this <a href="https://medium.com/@binaya.puri/how-to-obtain-a-discord-webhook-url-a-step-by-step-guide-719fddcd592b" target="_blank">guide</a>.
 * A private/public SSH key combination for access to your servers. The SSH public key must be installed on the servers.
 * Local GitLab or GitHub as the repository.
 * A VM or container to run the Discord bot.
 
 </br>
+
 {: .important }
 You need the bot token and the webhook URL for later use.
 
