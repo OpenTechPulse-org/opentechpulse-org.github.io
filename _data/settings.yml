@@ -24,8 +24,8 @@ menu_settings:
   menu_items:
     - title: "Home"
       url: "/"
-    - title: "Videos"
-      url: "/videos/"
+#    - title: "Videos"
+#      url: "/videos/"
     - title: "Archive"
       url: "/archive/"
     - title: "Pages"
@@ -34,8 +34,8 @@ menu_settings:
           title: "About"
         - url: "/contact/"
           title: "Contact"
-        - url: "/elements/"
-          title: "Elements"
+#        - url: "/elements/"
+#          title: "Elements"
 
 #-------------------------------
 # Author Settings
