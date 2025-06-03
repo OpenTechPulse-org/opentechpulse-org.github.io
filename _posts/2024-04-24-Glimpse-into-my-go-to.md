@@ -20,7 +20,7 @@ In deploying my go-to virtualization setup, I typically employ the following con
 
 <b>One or more 10Gb Switches:</b> Network speed and bandwidth are crucial for high-performance virtual environments. Deploying 10Gb switches enables swift intra-cluster communication and efficient data transfer, reducing bottlenecks and improving overall network performance. For our CEPH storage within the Proxmox environment, network performance is not just a benefit—it's a necessity. CEPH relies heavily on network speed for replication and data distribution across the cluster. This is why we ensure that each deployment includes at least one 10Gb switch. High-speed switches are crucial for maintaining swift and seamless access to storage, significantly enhancing both the performance and reliability of the CEPH cluster. By integrating 10Gb or higher network infrastructure, we effectively minimize latency and maximize throughput, which is essential for the demanding workloads and large data volumes handled by CEPH.
 
-One or more pfSense Appliances: To manage network security and routing, pfSense appliances are integral. These provide robust firewall protection, VPN capabilities, and advanced routing features to secure and optimize network traffic.
+<b>One or more pfSense Appliances:</b> To manage network security and routing, pfSense appliances are integral. These provide robust firewall protection, VPN capabilities, and advanced routing features to secure and optimize network traffic.
 
 This configuration has proven effective across various deployments, offering a solid foundation for scalable and secure virtualization solutions tailored to meet the diverse needs of our clients.
 
