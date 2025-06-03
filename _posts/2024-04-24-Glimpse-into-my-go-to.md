@@ -1,6 +1,6 @@
 ---
 layout: post
-title: A glimpse into my Go-To setup: Deploy a Promox CEPH HCI cluster
+title: A glimpse into my Go-To setup - Deploy a Promox CEPH HCI cluster
 description:
 date: 2024-04-24 12:00:00 +0200
 tags: [Proxmox, pfSense, CEPH, HCI]
@@ -31,6 +31,7 @@ This configuration has proven effective across various deployments, offering a s
 We utilize a minimum of three Proxmox nodes in our CEPH HCI cluster to meet the quorum requirements of Corosync, the cluster engine. This setup is critical to avoid "split-brain" scenarios, where the cluster's integrity could be compromised due to inconsistent data among the nodes. With three nodes, the cluster can maintain a majority vote on the state of the cluster, ensuring consistent operation and data integrity, even if one node goes offline.
 
 ### Overview
+
 ![ProxmoxOverview](/images/Glimpse-into-my-go-to-setup/ProxmoxOverview.webp)
 
 As you can see we have plenty of resource in this cluster. In this cluster we have 40 CPUs and 128 Gb RAM per node.
