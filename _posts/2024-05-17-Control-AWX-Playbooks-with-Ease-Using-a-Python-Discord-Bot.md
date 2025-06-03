@@ -17,11 +17,12 @@ featured: true
 * Kubernetes cluster
 * The AWX Operator installed. You can find the official docs <a href="https://ansible.readthedocs.io/projects/awx-operator/en/latest/index.html" target="_blank">here</a> or have a look at this <a href="https://porthit.com/installing-awx-on-kubernetes-using-helm/" target="_blank">guide</a>.
 * For Discord: 
-    * A bot on preferably a private server. For info on setting up a private Discrod server follow this <a href="https://support.discord.com/hc/en-us/articles/206143407-How-do-I-set-up-a-private-server" target="_blank">guide</a>. To setup your bot follow this <a href="https://discordpy.readthedocs.io/en/stable/discord.html" target="_blank">guide</a>.
-    * Webhook for channel: You need a webhook URL to send messages to a specific channel. Folllow this <a href="https://medium.com/@binaya.puri/how-to-obtain-a-discord-webhook-url-a-step-by-step-guide-719fddcd592b" target="_blank">guide</a>.
+&nbsp;&nbsp;&nbsp;&nbsp;* A bot on preferably a private server. For info on setting up a private Discrod server follow this <a href="https://support.discord.com/hc/en-us/articles/206143407-How-do-I-set-up-a-private-server" target="_blank">guide</a>. To setup your bot follow this <a href="https://discordpy.readthedocs.io/en/stable/discord.html" target="_blank">guide</a>.
+&nbsp;&nbsp;&nbsp;&nbsp;* Webhook for channel: You need a webhook URL to send messages to a specific channel. Folllow this <a href="https://medium.com/@binaya.puri/how-to-obtain-a-discord-webhook-url-a-step-by-step-guide-719fddcd592b" target="_blank">guide</a>.
 * A private/public SSH key combination for access to your servers. The SSH public key must be installed on the servers.
 * Local GitLab or GitHub as the repository.
 * A VM or container to run the Discord bot.
+
 
 {: .important }
 You need the bot token and the webhook URL for later use.
@@ -30,7 +31,7 @@ You need the bot token and the webhook URL for later use.
 
 You need a repository in GitLab or GitHub where your playbooks are located.
 
-To get you started i have some example playbooks on the <a href="https://github.com/eyetsolutions/opensourcepulse.io/tree/main/Ansible" target="_blank">opensourcepulse.io Github repository</a>.
+To get you started i have some example playbooks on the <a href="https://github.com/MatijaTerzic/Ansible" target="_blank">OpenTech Pulse Github repository</a>.
 
 ### Credentials
 
@@ -51,6 +52,7 @@ If you want to add it as username / password choose type "Source Control"
 To add your SSH private key add a credential with type "Machine" with the correct username. Also make sure you set "Privilege Escalation Method", "Privilege Escalation Username" and "Privilege Escalation Password". Those are needed when a playbook needs privileged access.
 
 When you added both GitLab/GitHub and SSH key it should look like this:
+
 ![credentials](/images/Control-AWX-Playbooks-with-Ease-Using-a-Python-Discord-Bot/Credentials.webp)
 
 ### Add project
@@ -65,7 +67,9 @@ Give your project a name and make sure you have the following:
 * Source Control URL: The URL of the repository (GitLab / GitHub)
 * Source Control Credential: The credentials you created earlier, in this case "Gitlab Source"
 
+
 You should have:
+
 ![project](/images/Control-AWX-Playbooks-with-Ease-Using-a-Python-Discord-Bot/Project.webp)
 
 ### Add inventory
@@ -79,6 +83,7 @@ Give it a name and go to the tab "sources":
 * Give it a name like GitLab or GitHub
 * As "Source," choose "Sourced from a Project"
 * In "Source Details" choose your project we created earlier and as "Inventory file" choose "/ (project root)"
+
 
 This will automatically read the "inventory.yml" in our repository and add the hosts.
 
@@ -100,6 +105,7 @@ Give it a name (i like to give it something that explains the playbook) and set 
 * Variables (optional): "Prompt on launch" - This is used by some example playbooks where you define certain servers on the Discord bot command (reboot_servers.yml, stats_servers.yml)
 * Options - Privilege Escalation (optional):     This is used by some example playbooks that need root access (check_diskspace.yml, reboot_servers.yml, stats_servers.yml, update_servers.yml)
 
+
 ### Token
 
 A token is used to authenticate API requests and integrate external applications securely. Tokens provide a way to authenticate users or systems without using traditional username and password combinations, enhancing security. You can generate tokens for individual users or service accounts, specifying the scope and duration of their validity. This enables automation scripts, tools, and integrations to interact with the AWX API, perform actions, and retrieve information in a controlled and secure manner. Proper management and periodic rotation of tokens are crucial to maintaining a secure automation environment.
@@ -110,6 +116,7 @@ Goto "Access -> Users" , click on your user and click the tab "Tokens". Click "A
 * You can enter a description like "Discord Bot"
 * Set "Scope" to "Write". If you set it to read you don't have permission to execute a template
 * When you click "Save" a popup will show the token, be sure to copy it now
+
 
 ![token](/images/Control-AWX-Playbooks-with-Ease-Using-a-Python-Discord-Bot/Token.webp)
 
@@ -125,7 +132,7 @@ mkdir /root/dbot_script/
 cd /root/dbot_script/
 ```
 
-- ### Create the script
+### Create the script
 
 Create the file dbot.py
 
@@ -139,6 +146,7 @@ Find the correct template number in AWX:
 * Click on a template
 * Take a look at the URL : https://awx_url/#/templates/job_template/12/details
 * Note the number for the correct template and change this in de script below
+
 
 Copy the following contents in the file:
 
@@ -322,7 +330,8 @@ pip install -r requirements.txt
 ### Setup systemd for the dbot.service
 
 1. Create a systemd service file:
-     
+
+
 Create a file named dbot.service in /etc/systemd/system/ with following contents:
 
 ```text
@@ -342,11 +351,13 @@ WantedBy=multi-user.target
 
 2. Reload systemd to recognize the new service:
 
+
 ```shell
 systemctl daemon-reload
 ```
 
 3. Enable the service to start on boot:
+
 
 ```shell
 systemctl enable dbot.service
@@ -354,11 +365,13 @@ systemctl enable dbot.service
 
 4. Start the service:
 
+
 ```shell
 systemctl start dbot.service
 ```
 
 5. Check the status of the service:
+
 
 ```shell
 systemctl status dbot.service
@@ -372,24 +385,30 @@ In the example playbooks, we have check_diskspace.yml and update_servers.yml. I 
 
 Here is some example output for those playbooks:
 
-![Updates1]/images/Control-AWX-Playbooks-with-Ease-Using-a-Python-Discord-Bot/(Updates1.webp)
+![Updates1](images/Control-AWX-Playbooks-with-Ease-Using-a-Python-Discord-Bot/(Updates1.webp)
+
 ![Updates2](/images/Control-AWX-Playbooks-with-Ease-Using-a-Python-Discord-Bot/Updates2.webp)
+
 ![Diskspace1](/images/Control-AWX-Playbooks-with-Ease-Using-a-Python-Discord-Bot/Diskspace1.webp)
 
 ### list_servers_awx.yml
 
 This will list the servers in AWX from the inventory.yml:
+
 ![List_servers](/images/Control-AWX-Playbooks-with-Ease-Using-a-Python-Discord-Bot/List_servers.webp)
 
 ### reboot_servers.yml
 
 This will reboot servers:
+
 ![Reboot_servers](/images/Control-AWX-Playbooks-with-Ease-Using-a-Python-Discord-Bot/Reboot.webp)
 
 ### stats_servers.yml
 
 This will gather and show stats about servers:
+
 ![Stats1_servers](/images/Control-AWX-Playbooks-with-Ease-Using-a-Python-Discord-Bot/Stats1.webp)
+
 ![Stats2_servers](/images/Control-AWX-Playbooks-with-Ease-Using-a-Python-Discord-Bot/Stats2.webp)
 
 ### The !send command
