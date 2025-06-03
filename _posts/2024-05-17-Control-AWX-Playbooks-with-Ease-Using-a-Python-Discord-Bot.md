@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Control AWX Ansible playbooks with ease using a Python Discord Bot
-description:
+description: Learn how to streamline your IT automation workflows by connecting AWX and Discord using a custom Python bot. This guide walks you through the setup, requirements, and practical use cases for controlling Ansible Playbooks directly from a Discord channel
 date: 2024-05-17 12:00:00 +0200
 tags: [AWX, Ansible, Python, Discord]
 tags_color: '#44430c'
