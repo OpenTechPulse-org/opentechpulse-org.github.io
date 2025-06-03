@@ -3,8 +3,8 @@ layout: post
 title: TUXEDO InfinityBook Pro 14" - Gen8 (Review)
 description: A hands-on review of the TUXEDO InfinityBook Pro 14 Gen8 — a powerful, Linux-first ultrabook. Discover its performance, build quality, battery life, and how it stands out as a privacy-respecting, open tech-friendly laptop.
 date: 2024-04-05 12:00:00 +0200
-categories: [Review, Linux Laptop]
-tags: [Laptop, Lnux]     # TAG names should always be lowercase
+tags: [Laptop, Linux]
+tags_color: '#46430c'
 image: '/images/Preview-Tuxedo-Laptop/Preview.webp'
 toc: false
 featured: true
