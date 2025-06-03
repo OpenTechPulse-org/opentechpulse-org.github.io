@@ -17,13 +17,12 @@ featured: true
 * Kubernetes cluster
 * The AWX Operator installed. You can find the official docs <a href="https://ansible.readthedocs.io/projects/awx-operator/en/latest/index.html" target="_blank">here</a> or have a look at this <a href="https://porthit.com/installing-awx-on-kubernetes-using-helm/" target="_blank">guide</a>.
 * For Discord:
-* * A bot on preferably a private server. For info on setting up a private Discrod server follow this <a href="https://support.discord.com/hc/en-us/articles/206143407-How-do-I-set-up-a-private-server" target="_blank">guide</a>. To setup your bot follow this <a href="https://discordpy.readthedocs.io/en/stable/discord.html" target="_blank">guide</a>.
-* * Webhook for channel: You need a webhook URL to send messages to a specific channel. Folllow this <a href="https://medium.com/@binaya.puri/how-to-obtain-a-discord-webhook-url-a-step-by-step-guide-719fddcd592b" target="_blank">guide</a>.
+ * A bot on preferably a private server. For info on setting up a private Discrod server follow this <a href="https://support.discord.com/hc/en-us/articles/206143407-How-do-I-set-up-a-private-server" target="_blank">guide</a>. To setup your bot follow this <a href="https://discordpy.readthedocs.io/en/stable/discord.html" target="_blank">guide</a>.
+ * Webhook for channel: You need a webhook URL to send messages to a specific channel. Folllow this <a href="https://medium.com/@binaya.puri/how-to-obtain-a-discord-webhook-url-a-step-by-step-guide-719fddcd592b" target="_blank">guide</a>.
 * A private/public SSH key combination for access to your servers. The SSH public key must be installed on the servers.
 * Local GitLab or GitHub as the repository.
 * A VM or container to run the Discord bot.
 
-</br>
 
 {: .important }
 You need the bot token and the webhook URL for later use.
@@ -67,7 +66,7 @@ Give your project a name and make sure you have the following:
 * Source Control Type: Git
 * Source Control URL: The URL of the repository (GitLab / GitHub)
 * Source Control Credential: The credentials you created earlier, in this case "Gitlab Source"
-</br>
+
 
 You should have:
 
@@ -106,7 +105,7 @@ Give it a name (i like to give it something that explains the playbook) and set 
 * Variables (optional): "Prompt on launch" - This is used by some example playbooks where you define certain servers on the Discord bot command (reboot_servers.yml, stats_servers.yml)
 * Options - Privilege Escalation (optional):     This is used by some example playbooks that need root access (check_diskspace.yml, reboot_servers.yml, stats_servers.yml, update_servers.yml)
 
-</br>
+
 ### Token
 
 A token is used to authenticate API requests and integrate external applications securely. Tokens provide a way to authenticate users or systems without using traditional username and password combinations, enhancing security. You can generate tokens for individual users or service accounts, specifying the scope and duration of their validity. This enables automation scripts, tools, and integrations to interact with the AWX API, perform actions, and retrieve information in a controlled and secure manner. Proper management and periodic rotation of tokens are crucial to maintaining a secure automation environment.
