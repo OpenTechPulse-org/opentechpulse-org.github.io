@@ -95,16 +95,10 @@ tags_section:
   enable: true
   tags_section_title: Navigate the Pulse
   tags:
-    - tag: "Programming"
-      image: "/images/20.jpg"
     - tag: "Linux"
-      image: "/images/21.jpg"
-    - tag: "Productivity"
-      image: "/images/22.jpg"
+      image: "/images/navigate-the-pulse/linux.png"
     - tag: "Security"
-      image: "/images/23.jpg"
-    - tag: "Security"
-      image: "/images/23.jpg"
+      image: "/images/navigate-the-pulse/security.jpg"
 
 #-------------------------------
 # Videos Section Settings
