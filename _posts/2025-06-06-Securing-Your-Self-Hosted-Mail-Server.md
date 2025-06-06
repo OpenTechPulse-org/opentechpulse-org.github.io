@@ -23,6 +23,7 @@ That’s why modern email security protocols are essential. In this article, we�
 <br><br>
 When implemented together, these standards help establish a strong email security posture — one that protects both your users and your domain’s reputation.
 <br><br>
+
 ## **SPF: Specify who can send on behalf of your domain**
 
 SPF (Sender Policy Framework) is a DNS-based email authentication protocol that tells other mail servers which IP addresses or systems are allowed to send mail for your domain. It’s your first line of defense against sender spoofing.
@@ -44,7 +45,7 @@ Let’s break it down:
 * **v=spf1** : This declares the version of SPF being used. spf1 is the current and only version in use.
 * **mx** : Any server listed in your domain’s MX records is authorized to send email on behalf of your domain.
 * **-all** : This is a hard fail. It tells receiving mail servers: Reject any emails that come from sources not listed above.
-
+<br><br>
 {: .tip }
 Tip: Always double-check your SPF syntax. Only one SPF record is allowed per domain, and overly permissive settings (like ~all or +all) can weaken your protection.
 
@@ -59,7 +60,7 @@ If you're running Mailcow, you can configure SPF by:
 * Ensuring your public-facing mail server IP is added to your SPF record or "mx".
 * Adding necessary includes if you use SMTP relays.
 * Publishing the record via your domain's DNS settings.
-
+<br><br>
 ## **DKIM: Sign your outgoing mail with a cryptographic signature**
 
 DKIM (DomainKeys Identified Mail) adds a digital signature to each outgoing message. It allows receiving mail servers to verify that the email was actually sent by your domain, and that it wasn’t modified in transit.
@@ -86,7 +87,7 @@ Let’s break it down:
 * **v=DKIM1** : Indicates the DKIM version.
 * **k=rsa** : Specifies the encryption algorithm.
 * **p=..** : This is your public key. Receiving mail servers use this to verify the digital signature in your emails.
-
+<br><br>
 ### What DKIM protects against
 
 DKIM helps ensure:
@@ -94,7 +95,7 @@ DKIM helps ensure:
 * The email really came from your domain.
 * The content wasn’t modified after sending.
 * Spoofed emails without a valid signature can be flagged or rejected (especially when combined with DMARC).
-
+<br><br>
 Unlike SPF, DKIM protects the visible “From” address in the email header — the part users actually see.
 
 ### Setting it up with Mailcow
@@ -132,11 +133,11 @@ Let’s break it down:
 
 * **_dmarc** : Is part of the required DMARC DNS structure.
 * **v=DMARC1** :  DMARC version.
-* **p=reject** : Policy if checks fail (none | quarantine | reject).
+* **p=reject** : Policy if checks fail (none, quarantine or reject).
 * **rua=mailto:...** : Where to send aggregate reports.
 * **aspf=s** : Strict SPF alignment (header From must exactly match).
 * **adkim=s** : Strict DKIM alignment.
-
+<br><br>
 {: .tip }
 Tip: Use p=none when starting out, you’ll get reports but no mail will be blocked. Once you’re confident, switch to quarantine or reject.
 
@@ -147,7 +148,7 @@ DMARC lets you receive aggregate reports (XML files) from other mail providers s
 * Who is sending mail using your domain
 * Whether SPF and DKIM passed
 * IPs attempting to spoof your domain
-
+<br><br>
 ### Setting it up with Mailcow
 
 Mailcow handles DKIM and SPF, but DMARC is configured at the DNS level:
@@ -155,7 +156,7 @@ Mailcow handles DKIM and SPF, but DMARC is configured at the DNS level:
 * Decide on your policy (none, quarantine, or reject)
 * Create a DNS TXT record at _dmarc.yourdomain.com
 * Point rua to an email inbox where you can receive and analyze reports
-
+<br><br>
 Once active, monitor your reports for at least a week before enforcing stricter policies.
 
 ## **MTA-STS: Enforce secure mail transport between servers**
@@ -170,13 +171,13 @@ MTA-STS works in two parts:
 
 1. A DNS record (a TXT record) tells other mail servers where to find your policy.
 2. An HTTPS-hosted policy file describes which mail servers are valid and whether TLS is required.
-
+<br><br>
 If the sending server supports MTA-STS, it will:
 
 * Fetch the policy via HTTPS
 * Check that the destination mail server’s certificate is valid
 * Only deliver mail if the connection is secure and matches your policy
-
+<br><br>
 Example MTA-STS DNS record (TXT):
 
 ```text
@@ -188,7 +189,7 @@ Let’s break it down:
 * **_mta-sts** : Is part of the required MTA-STS DNS structure.
 * **v=STSv1** :  The current version.
 * **id=** : A unique ID; update this whenever your policy file changes. Can be anything you want.
-
+<br><br>
 ### Example policy file
 
 The policy file must be available at https://mta-sts.example.com/.well-known/mta-sts.txt
@@ -205,14 +206,14 @@ max_age: 604800
 * mode: enforce — Only accept secure delivery.
 * mx: — List your valid MX hostnames.
 * max_age: — How long (in seconds) other servers should cache the policy.
-
+<br><br>
 You’ll need to host this file on a web server with a valid TLS certificate.
 
 ### Create a docker container to serve the file
 
 I am running traefik as my proxy, this alows me to create a docker container that uses labels for easy hosting for the MTA-STS policy file.
 
-1. Create a seperate directory for the docker container (e.g. /home/docker/mta-sts-container) and create the docker-compose.yml file:
+* Create a seperate directory for the docker container (e.g. /home/docker/mta-sts-container) and create the docker-compose.yml file:
 
 ```yaml
 version: "3.8"
@@ -236,7 +237,7 @@ networks:
     external: true  # Same network as the traefik container
 ```
 
-2. In the /home/docker/mta-sts-container directory create a directory named mta-sts and create the mta-sts.txt file with contents:
+* In the /home/docker/mta-sts-container directory create a directory named mta-sts and create the mta-sts.txt file with contents:
 
 ```text
 version: STSv1
@@ -245,9 +246,9 @@ mx: mail.example.com
 max_age: 604800
 ```
 
-3. Execut "sudo docker compose up -d" in the /home/docker/mta-sts-container directory and the file should be accessible by browser at "https://mta-sts.example.com/.well-known/mta-sts.txt
+* Execute "sudo docker compose up -d" in the /home/docker/mta-sts-container directory and the file should be accessible by browser at "https://mta-sts.example.com/.well-known/mta-sts.txt
 "
-
+<br><br>
 ### MTA-STS Reporting
 
 If you’re using MTA-STS, you can also enable TLS Reporting (TLS-RPT). This lets other mail servers send reports about delivery issues (e.g., failed TLS handshakes).
