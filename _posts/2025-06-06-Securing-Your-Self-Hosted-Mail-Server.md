@@ -20,7 +20,7 @@ That’s why modern email security protocols are essential. In this article, we�
 * DKIM: Adds a digital signature to your outgoing mail to verify authenticity.
 * DMARC: Tells recipient servers what to do if SPF and DKIM checks fail.
 * MTA-STS: Enforces encryption for email delivery between servers.
-
+<br><br>
 When implemented together, these standards help establish a strong email security posture — one that protects both your users and your domain’s reputation.
 
 ## **SPF: Specify who can send on behalf of your domain**
@@ -45,7 +45,7 @@ Let’s break it down:
 * **mx** : Any server listed in your domain’s MX records is authorized to send email on behalf of your domain.
 * **-all** : This is a hard fail. It tells receiving mail servers: Reject any emails that come from sources not listed above.
 
-{: .info }
+{: .tip }
 Tip: Always double-check your SPF syntax. Only one SPF record is allowed per domain, and overly permissive settings (like ~all or +all) can weaken your protection.
 
 ### What SPF protects against
@@ -137,7 +137,7 @@ Let’s break it down:
 * **aspf=s** : Strict SPF alignment (header From must exactly match).
 * **adkim=s** : Strict DKIM alignment.
 
-{: .info }
+{: .tip }
 Tip: Use p=none when starting out, you’ll get reports but no mail will be blocked. Once you’re confident, switch to quarantine or reject.
 
 ### What are DMARC reports?
