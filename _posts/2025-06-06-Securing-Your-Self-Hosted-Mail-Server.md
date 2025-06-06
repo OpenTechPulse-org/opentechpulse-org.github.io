@@ -89,6 +89,7 @@ Let’s break it down:
 * **k=rsa** : Specifies the encryption algorithm.
 * **p=..** : This is your public key. Receiving mail servers use this to verify the digital signature in your emails.
 <br><br>
+
 ### What DKIM protects against
 
 DKIM helps ensure:
@@ -98,6 +99,7 @@ DKIM helps ensure:
 * Spoofed emails without a valid signature can be flagged or rejected (especially when combined with DMARC).
 <br><br>
 Unlike SPF, DKIM protects the visible “From” address in the email header — the part users actually see.
+<br><br>
 
 ### Setting it up with Mailcow
 
@@ -106,7 +108,7 @@ Mailcow makes DKIM easy:
 * It automatically generates DKIM keys per domain.
 * You’ll find them in the Mailcow admin panel under Configuration > Options > ARC/DKIM Keys.
 * Just publish the DNS TXT record it shows for your domain.
-
+<br><br>
 Once set, you can test DKIM by sending an email to a Gmail address and viewing the “Original message” (check for DKIM=pass).
 
 ## **DMARC: Define a policy and gain visibility**
@@ -139,6 +141,7 @@ Let’s break it down:
 * **aspf=s** : Strict SPF alignment (header From must exactly match).
 * **adkim=s** : Strict DKIM alignment.
 <br><br>
+
 {: .tip }
 Tip: Use p=none when starting out, you’ll get reports but no mail will be blocked. Once you’re confident, switch to quarantine or reject.
 
@@ -159,6 +162,7 @@ Mailcow handles DKIM and SPF, but DMARC is configured at the DNS level:
 * Point rua to an email inbox where you can receive and analyze reports
 <br><br>
 Once active, monitor your reports for at least a week before enforcing stricter policies.
+<br><br>
 
 ## **MTA-STS: Enforce secure mail transport between servers**
 
@@ -191,6 +195,7 @@ Let’s break it down:
 * **v=STSv1** :  The current version.
 * **id=** : A unique ID; update this whenever your policy file changes. Can be anything you want.
 <br><br>
+
 ### Example policy file
 
 The policy file must be available at https://mta-sts.example.com/.well-known/mta-sts.txt
@@ -209,6 +214,7 @@ max_age: 604800
 * max_age: — How long (in seconds) other servers should cache the policy.
 <br><br>
 You’ll need to host this file on a web server with a valid TLS certificate.
+<br><br>
 
 ### Create a docker container to serve the file
 
