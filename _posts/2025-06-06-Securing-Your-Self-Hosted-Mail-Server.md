@@ -110,6 +110,7 @@ Mailcow makes DKIM easy:
 * Just publish the DNS TXT record it shows for your domain.
 <br><br>
 Once set, you can test DKIM by sending an email to a Gmail address and viewing the “Original message” (check for DKIM=pass).
+<br><br>
 
 ## **DMARC: Define a policy and gain visibility**
 
