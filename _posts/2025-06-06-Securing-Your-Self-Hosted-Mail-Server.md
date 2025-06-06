@@ -46,6 +46,7 @@ Let’s break it down:
 * **mx** : Any server listed in your domain’s MX records is authorized to send email on behalf of your domain.
 * **-all** : This is a hard fail. It tells receiving mail servers: Reject any emails that come from sources not listed above.
 <br><br>
+
 {: .tip }
 Tip: Always double-check your SPF syntax. Only one SPF record is allowed per domain, and overly permissive settings (like ~all or +all) can weaken your protection.
 
