@@ -22,7 +22,7 @@ That’s why modern email security protocols are essential. In this article, we�
 * MTA-STS: Enforces encryption for email delivery between servers.
 <br><br>
 When implemented together, these standards help establish a strong email security posture — one that protects both your users and your domain’s reputation.
-
+<br><br>
 ## **SPF: Specify who can send on behalf of your domain**
 
 SPF (Sender Policy Framework) is a DNS-based email authentication protocol that tells other mail servers which IP addresses or systems are allowed to send mail for your domain. It’s your first line of defense against sender spoofing.
