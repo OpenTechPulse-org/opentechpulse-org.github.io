@@ -99,7 +99,8 @@ tags_section:
       image: "/images/navigate-the-pulse/linux.png"
     - tag: "Security"
       image: "/images/navigate-the-pulse/security.jpg"
-
+    - tag: "Self-Hosting"
+      image: "/images/navigate-the-pulse/self-hosting.png"
 #-------------------------------
 # Videos Section Settings
 videos_section:
