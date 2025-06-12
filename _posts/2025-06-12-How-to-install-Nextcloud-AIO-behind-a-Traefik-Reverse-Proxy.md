@@ -5,12 +5,12 @@ description: Learn how to install and configure Nextcloud AIO (All-in-One) behin
 date: 2025-06-12 08:00:00 +0200
 tags: [Self-Hosting]
 tags_color: '#4ee30c'
-image: '/images/2025-06-06-Securing-Your-Self-Hosted-Mail-Server/Preview.png'
+image: '/images/2025-06-12-How-to-install-Nextcloud-AIO-behind-a-Traefik-Reverse-Proxy/Preview.png'
 toc: true
 featured: true
 ---
 
-Setting up your own private cloud has never been easier, thanks to Nextcloud AIO (All-in-One) and the flexibility of Docker. But to run it securely and efficiently—especially with HTTPS—you'll want to place it behind a reliable reverse proxy like Traefik. In this guide, we’ll walk you through deploying Nextcloud AIO behind Traefik, enabling automatic TLS, clean domain routing, and better control over your self-hosted infrastructure.
+Setting up your own private cloud has never been easier, thanks to Nextcloud AIO (All-in-One) and the flexibility of Docker. But to run it securely and efficiently—especially with HTTPS, you'll want to place it behind a reliable reverse proxy like Traefik. In this guide, we’ll walk you through deploying Nextcloud AIO behind Traefik, enabling automatic TLS, clean domain routing, and better control over your self-hosted infrastructure.
 
 ## **Prerequisites**
 
@@ -84,24 +84,21 @@ Paste the following:
 services:
   nextcloud-aio-mastercontainer:
     image: ghcr.io/nextcloud-releases/all-in-one:latest
-    #init: true
     restart: always
-    container_name: nextcloud-aio-mastercontainer # This line is not allowed to be changed as otherwise AIO will not work correctly
+    container_name: nextcloud-aio-mastercontainer # Do not change
     volumes:
       - nextcloud_aio_mastercontainer:/mnt/docker-aio-config # This line is not allowed to be changed as otherwise the built-in backup solution will not work
-      - /var/run/docker.sock:/var/run/docker.sock:ro # May be changed on macOS, Windows or docker rootless. See the applicable documentation. If adjusting, don't forget to also set 'WATCHTOWER_DOCKER_SOCKET_PATH'!
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     network_mode: bridge
     ports:
-      #- 80:80 # Can be removed when running behind a web server or reverse proxy (like Apache, Nginx, Caddy, Cloudflare Tunnel and else). See https://github.com/nextcloud/all-in-one/blob/main/reverse-proxy.md
       - 8080:8080
-      #- 8443:8443 # Can be removed when running behind a web server or reverse proxy (like Apache, Nginx, Caddy, Cloudflare Tunnel and else). See https://github.com/nextcloud/all-in-one/blob/main/reverse-proxy.md
-    environment: # Is needed when using any of the options below
-      APACHE_PORT: 11000 # Is needed when running behind a web server or reverse proxy (like Apache, Nginx, Caddy, Cloudflare Tunnel and else). See https://github.com/nextcloud/all-in-one/blob/main/reverse-proxy.md
-      APACHE_IP_BINDING: 0.0.0.0 # Should be set when running behind a web server or reverse proxy (like Apache, Nginx, Caddy, Cloudflare Tunnel and else) that is running on the same host. See https://github.com/nextcloud/all-in-one/blob/main/reverse-proxy.md
-      NEXTCLOUD_DATADIR: /nextcloud-data # Allows to set the host directory for Nextcloud's datadir. ⚠⚠⚠ Warning: do not set or adjust this value after the initial Nextcloud installation is done! See https://github.com/nextcloud/all-in-one#how-to-change-the-default-location-of-nextclouds-datadir
-      SKIP_DOMAIN_VALIDATION: true # This should only be set to true if things are correctly configured. See https://github.com/nextcloud/all-in-one?tab=readme-ov-file#how-to-skip-the-domain-validation
+    environment:
+      APACHE_PORT: 11000 # Is needed when running behind a web server or reverse proxy
+      APACHE_IP_BINDING: 0.0.0.0 # Should be set when running behind a web server or reverse proxy
+      NEXTCLOUD_DATADIR: /nextcloud-data # Allows to set the host directory for Nextcloud's datadir.
+      SKIP_DOMAIN_VALIDATION: true # You can try to set this to false, but with a reverse proxy this might fail
 
-volumes: # If you want to store the data on a different drive, see https://github.com/nextcloud/all-in-one#how-to-store-the-filesinstallation-on-a-separate-drive
+volumes:
   nextcloud_aio_mastercontainer:
     name: nextcloud_aio_mastercontainer # This line is not allowed to be changed as otherwise the built-in backup solution will not work
 ```
@@ -145,7 +142,7 @@ In this page you need to enter your external domain, in my case this is storage.
 
 ## **Optional containers**
 
-On this page you can enable some optional containers if needed. Beware that you VM has enough recources to run them.
+On this page you can enable some optional containers if needed. Beware that your VM must have enough recources to run them.
 
 ![optional-containers](/images/2025-06-12-How-to-install-Nextcloud-AIO-behind-a-Traefik-Reverse-Proxy/5-nextcloud-aio-optional-containers-timezone.png)
 
