@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to Install Nextcloud AIO Behind a Traefik Reverse Proxy
+title: How to install Nextcloud AIO behind a Traefik Reverse Proxy
 description: Learn how to install and configure Nextcloud AIO (All-in-One) behind a Traefik reverse proxy using Docker.
 date: 2025-06-12 08:00:00 +0200
 tags: [Self-Hosting]
