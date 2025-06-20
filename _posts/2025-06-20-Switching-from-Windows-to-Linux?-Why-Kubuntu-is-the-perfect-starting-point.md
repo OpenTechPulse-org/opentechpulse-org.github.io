@@ -5,7 +5,7 @@ description: Thinking about trying Linux but worried it’s too different from W
 date: 2025-06-20 08:00:00 +0200
 tags: [Linux]
 tags_color: '#e3660c'
-image: '/images/2025-06-20-Switching-from-Windows-to-Linux?-Why-Kubuntu-is-the-perfect-starting-point/Preview.png'
+image: '/images/2025-06-20-Switching-from-Windows-to-Linux-Why-Kubuntu-is-the-perfect-starting-point/Preview.png'
 video_embed: https://www.youtube.com/embed/0aHBeVg7X_4
 toc: false
 featured: true
