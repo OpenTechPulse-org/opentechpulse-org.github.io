@@ -110,25 +110,16 @@ videos_section:
 #-------------------------------
 # Gallery Section Settings
 gallery_section:
-  enable: false
-  gallery_section_title: Byte Frame
+  enable: true
+  gallery_section_title: The OpenTech Lens
   gallery:
     gallery_images:
-      - alt: "Rest"
-        url: "/images/100.jpg"
-        caption: "Small steps lead to big results."
-      - alt: "Lifestyle"
-        url: "/images/101.jpg"
-        caption: "A peaceful moment captured during a serene evening."
-      - alt: "Hobby"
-        url: "/images/102.jpg"
-        caption: "True friends are like stars — they shine brightest when the world feels dark."
-      - alt: "Computers"
-        url: "/images/103.jpg"
-        caption: "Every click opens a new chapter in an endless story."
-      - alt: "Games"
-        url: "/images/104.jpg"
-        caption: "Every level is a new opportunity to test your limits."
+      - alt: "Close-up view of a rack-mounted server with active status LEDs in a data center or server room."
+        url: "/images/the-opentech-lens/server.jpg"
+        caption: "Server powering our digital infrastructure."
+      - alt: "Close-up of a UniFi Enterprise XG network switch with multiple connected Ethernet cables in a server rack."
+        url: "/images/the-opentech-lens/switch.jpg"
+        caption: "Enterprise-grade switching at the core of our open infrastructure."
 
 #-------------------------------
 # Newsletter Settings
