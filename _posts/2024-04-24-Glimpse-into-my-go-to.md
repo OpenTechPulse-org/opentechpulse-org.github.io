@@ -7,7 +7,6 @@ tags: [Proxmox, pfSense, CEPH, HCI]
 tags_color: '#46430c'
 image: '/images/Glimpse-into-my-go-to-setup/Preview.webp'
 toc: false
-featured: true
 ---
 
 In this post, I will show you my basic go-to setup when a client asks my company for a robust virtualization solution. We often turn to a Proxmox CEPH HCI cluster, a configuration that has consistently delivered excellent results in terms of scalability, reliability, and cost-effectiveness. This setup is our starting point for building customized solutions that meet specific client needs, combining ease of management with powerful performance.

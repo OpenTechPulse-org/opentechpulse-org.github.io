@@ -7,7 +7,6 @@ tags: [Laptop, Linux]
 tags_color: '#46430c'
 image: '/images/Preview-Tuxedo-Laptop/Preview.webp'
 toc: false
-featured: true
 ---
 
 For me it was time to buy a new laptop. I wanted a Laptop that is 100% Linux compatible.
