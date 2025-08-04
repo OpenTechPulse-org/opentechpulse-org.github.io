@@ -2,7 +2,7 @@
 layout: post
 title: "Step-by-Step: High Availability Docker Swarm with Traefik and Keepalived VIP"
 description: Learn how to set up a high-availability Docker Swarm cluster using Traefik as a reverse proxy and Keepalived for floating IP failover. This step-by-step guide covers Swarm service deployment, VIP configuration, and building a resilient routing layer for your containerized applications.
-date: 2025-08-04 12:00:00 +0200
+date: 2025-08-04 11:00:00 +0200
 tags: [Docker-Swarm]
 tags_color: '#0e6633ff'
 image: '/images/2025-08-04-Step-by-Step:-High-Availability-Docker-Swarm-with-Traefik-and-Keepalived-VIP/Preview.png'

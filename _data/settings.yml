@@ -101,6 +101,8 @@ tags_section:
       image: "/images/navigate-the-pulse/security.jpg"
     - tag: "Self-Hosting"
       image: "/images/navigate-the-pulse/self-hosting.png"
+    - tag: "Docker-Swarm"
+      image: "/images/navigate-the-pulse/docker-swarm.png"
 #-------------------------------
 # Videos Section Settings
 videos_section:
