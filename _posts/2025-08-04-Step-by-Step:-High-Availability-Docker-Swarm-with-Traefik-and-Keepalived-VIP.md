@@ -265,7 +265,7 @@ Mount your NFS export, in my case /mnt/MAINPOOL/DOCKER_NFS/traefik/config/, loca
 sudo nano traefik.yaml
 ```
 
-And pste the following content:
+And paste the following content:
 
 ```yaml
 api:
